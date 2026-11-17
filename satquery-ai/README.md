@@ -103,7 +103,7 @@ SatQuery AI features a streamlined, modular navigation structure:
 
 ```bash
 git clone <repository-url>
-cd satquery-ai-final/satquery-ai
+cd satquery-ai
 cp .env.example .env
 ```
 
@@ -148,7 +148,25 @@ npm run dev
 
 ---
 
-## 7. Containerized Deployment (Docker)
+## 7. Vercel Deployment (Frontend)
+
+The frontend is specifically configured for seamless deployment on Vercel:
+
+1. **Import the repository into Vercel**.
+2. **Project Settings**:
+   * **Root Directory**: `satquery-ai/frontend` (or leave default `.` as the root `vercel.json` will automatically build the frontend).
+   * **Framework Preset**: Vite
+   * **Build Command**: `npm run build`
+   * **Output Directory**: `dist`
+3. **Environment Variables**:
+   * Add `VITE_API_BASE_URL` pointing to your deployed FastAPI backend (e.g. `https://your-backend.railway.app` or `https://your-backend.onrender.com`).
+   * For local development, leave this empty to use the Vite dev proxy.
+
+Client-side SPA routes (e.g., `/analyze`, `/dashboard`, `/missions`) will automatically rewrite to `/index.html` via `vercel.json`.
+
+---
+
+## 8. Containerized Deployment (Docker)
 
 To run the entire platform with Docker Compose:
 
@@ -161,7 +179,7 @@ docker compose up --build
 
 ---
 
-## 8. Configuration (`.env`)
+## 9. Configuration (`.env`)
 
 All platform parameters are configured via environment variables:
 
@@ -175,7 +193,7 @@ All platform parameters are configured via environment variables:
 
 ---
 
-## 9. API Reference
+## 10. API Reference
 
 Interactive Swagger documentation is available at `http://localhost:8000/docs`. Key REST endpoints:
 
@@ -195,43 +213,48 @@ Interactive Swagger documentation is available at `http://localhost:8000/docs`. 
 
 ---
 
-## 10. Repository Structure
+## 11. Repository Structure
 
 ```
-satquery-ai/
-├── backend/
-│   ├── app/
-│   │   ├── main.py              # FastAPI application entry point
-│   │   ├── core_config.py       # Configuration and environment variables
-│   │   ├── agents/              # Orchestrator, task classifier, confidence engine
-│   │   ├── api/                 # REST API route handlers
-│   │   ├── db/                  # SQLAlchemy models and SQLite session setup
-│   │   ├── evaluation/          # Benchmark evaluation runners
-│   │   ├── models/              # Model registry and metadata
-│   │   ├── schemas/             # Pydantic request and response schemas
-│   │   ├── services/            # Upload, history, and report generation services
-│   │   └── tools/               # Geospatial I/O, fallback CV engines, SAR processing
-│   ├── requirements.txt         # Python dependencies
-│   └── tests/                   # Backend unit and integration tests
-├── frontend/
-│   ├── src/
-│   │   ├── components/          # Reusable UI cards, space visuals, and primitives
-│   │   ├── layouts/             # AppLayout navigation and footer
-│   │   ├── pages/               # Dashboard, Analyze, Missions, History, etc.
-│   │   ├── services/            # Axios API client bindings
-│   │   └── types/               # TypeScript data interfaces
-│   ├── package.json             # Frontend dependencies and scripts
-│   └── vite.config.ts           # Vite build configuration and proxy rules
-├── training/                    # BigEarthNet dataset loader and training scripts
-├── data/                        # Benchmark documentation and sample datasets
-├── models/                      # Checkpoint directory for trained weights
-├── docker-compose.yml           # Multi-container orchestration
-└── README.md                    # Project documentation
+satquery-ai-final/
+├── satquery-ai/
+│   ├── backend/
+│   │   ├── app/
+│   │   │   ├── main.py              # FastAPI application entry point
+│   │   │   ├── core_config.py       # Configuration and environment variables
+│   │   │   ├── agents/              # Orchestrator, task classifier, confidence engine
+│   │   │   ├── api/                 # REST API route handlers
+│   │   │   ├── db/                  # SQLAlchemy models and SQLite session setup
+│   │   │   ├── evaluation/          # Benchmark evaluation runners
+│   │   │   ├── models/              # Model registry and metadata
+│   │   │   ├── schemas/             # Pydantic request and response schemas
+│   │   │   ├── services/            # Upload, history, and report generation services
+│   │   │   └── tools/               # Geospatial I/O, fallback CV engines, SAR processing
+│   │   ├── requirements.txt         # Python dependencies
+│   │   └── tests/                   # Backend unit and integration tests
+│   ├── frontend/
+│   │   ├── src/
+│   │   │   ├── components/          # Reusable UI cards, space visuals, and primitives
+│   │   │   ├── layouts/             # AppLayout navigation and footer
+│   │   │   ├── pages/               # Dashboard, Analyze, Missions, History, etc.
+│   │   │   ├── services/            # API client with dynamic backend resolution
+│   │   │   └── types/               # TypeScript data interfaces
+│   │   ├── .env.example             # Frontend environment variable template
+│   │   ├── package.json             # Frontend dependencies and scripts
+│   │   ├── vercel.json              # Vercel SPA routing rewrites
+│   │   └── vite.config.ts           # Vite build configuration and proxy rules
+│   ├── training/                    # BigEarthNet dataset loader and training scripts
+│   ├── data/                        # Benchmark documentation and sample datasets
+│   ├── models/                      # Checkpoint directory for trained weights
+│   ├── docker-compose.yml           # Multi-container orchestration
+│   └── README.md                    # Project documentation
+├── vercel.json                      # Root-level Vercel configuration fallback
+└── .gitignore                       # Repository-wide ignore rules
 ```
 
 ---
 
-## 11. Ethical AI & Transparency
+## 12. Ethical AI & Transparency
 
 * **Honest Attribution:** Specialist vision tasks run on verifiable fallback heuristic algorithms unless dedicated PyTorch checkpoints are explicitly provided, clearly labeled across UI badges, API responses, and generated PDF reports.
 * **No Fabricated Benchmarks:** Evaluation modules clearly distinguish synthetic verification from benchmark dataset evaluations.

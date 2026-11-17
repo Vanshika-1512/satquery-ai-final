@@ -11,7 +11,7 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
   const [pos, setPos] = useState(50);
   const safePos = Math.max(1, pos); // avoid divide-by-zero when fully at 0%
   return (
-    <div className="relative w-full aspect-video rounded-md overflow-hidden border border-white/10 select-none">
+    <div className="relative w-full aspect-video min-h-[380px] sm:min-h-[460px] rounded-lg overflow-hidden border border-white/10 select-none bg-slate-950">
       <img src={after} className="absolute inset-0 w-full h-full object-cover" />
       <div className="absolute inset-0 overflow-hidden" style={{ width: `${pos}%` }}>
         <img
@@ -123,22 +123,26 @@ export default function ResultsPanel({
         <Card>
           <PanelTitle>Before / after comparison</PanelTitle>
           <BeforeAfterSlider before={v.before} after={v.after} />
-          <div className="grid grid-cols-2 gap-3 mt-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
             {v.change_heatmap && (
               <div>
-                <div className="text-[11px] text-slate-400 mb-1 font-mono">Change heatmap</div>
-                <img src={v.change_heatmap} className="rounded-md border border-white/10 w-full aspect-video object-cover" />
+                <div className="text-[12px] text-slate-300 mb-1.5 font-mono">Change heatmap</div>
+                <img
+                  src={v.change_heatmap}
+                  className="rounded-lg border border-white/10 w-full min-h-[300px] sm:min-h-[360px] object-cover bg-slate-950"
+                  alt="Change heatmap"
+                />
               </div>
             )}
             {v.change_overlay && (
               <div>
-                <div className="text-[11px] text-slate-400 mb-1 font-mono flex items-center gap-1">
+                <div className="text-[12px] text-slate-300 mb-1.5 font-mono flex items-center gap-1">
                   Change regions overlay <span className="text-cyan-400/80">(click a region for details)</span>
                 </div>
                 <ClickableRegionImage
                   src={v.change_overlay}
                   analysisId={result.analysis_id}
-                  className="rounded-md border border-white/10 w-full aspect-video object-cover"
+                  className="rounded-lg border border-white/10 w-full min-h-[300px] sm:min-h-[360px] object-cover bg-slate-950"
                   onRegionFollowup={(res: RegionFollowupResponse) => {
                     if (res.local_stats?.region_index) {
                       setSelectedRegionIndex(res.local_stats.region_index);
@@ -166,23 +170,35 @@ export default function ResultsPanel({
       {(v.optical || v.sar_backscatter || v.fused_overlay) && (
         <Card>
           <PanelTitle>Optical + SAR analysis</PanelTitle>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {v.optical && (
               <div>
-                <div className="text-[11px] text-slate-500 mb-1">Optical</div>
-                <img src={v.optical} className="rounded-md border border-white/10 w-full aspect-square object-cover" />
+                <div className="text-[12px] text-slate-400 mb-1.5 font-mono">Optical (MSI)</div>
+                <img
+                  src={v.optical}
+                  className="rounded-lg border border-white/10 w-full min-h-[280px] sm:min-h-[340px] object-cover bg-slate-950"
+                  alt="Optical"
+                />
               </div>
             )}
             {v.sar_backscatter && (
               <div>
-                <div className="text-[11px] text-slate-500 mb-1">SAR (Backscatter, log-scaled)</div>
-                <img src={v.sar_backscatter} className="rounded-md border border-white/10 w-full aspect-square object-cover" />
+                <div className="text-[12px] text-slate-400 mb-1.5 font-mono">SAR (Backscatter, log-scaled)</div>
+                <img
+                  src={v.sar_backscatter}
+                  className="rounded-lg border border-white/10 w-full min-h-[280px] sm:min-h-[340px] object-cover bg-slate-950"
+                  alt="SAR"
+                />
               </div>
             )}
             {v.fused_overlay && (
               <div>
-                <div className="text-[11px] text-slate-500 mb-1">Fused interpretation</div>
-                <img src={v.fused_overlay} className="rounded-md border border-white/10 w-full aspect-square object-cover" />
+                <div className="text-[12px] text-slate-400 mb-1.5 font-mono">Fused interpretation</div>
+                <img
+                  src={v.fused_overlay}
+                  className="rounded-lg border border-white/10 w-full min-h-[280px] sm:min-h-[340px] object-cover bg-slate-950"
+                  alt="Fused overlay"
+                />
               </div>
             )}
           </div>
@@ -192,21 +208,26 @@ export default function ResultsPanel({
       {(v.input_image || v.grounding_overlay) && (
         <Card>
           <PanelTitle>Visual evidence</PanelTitle>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {v.input_image && (
               <div>
-                <div className="text-[11px] text-slate-500 mb-1">Input image</div>
-                <img src={v.input_image} className="rounded-md border border-white/10 w-full aspect-square object-cover" />
+                <div className="text-[12px] text-slate-300 mb-1.5 font-mono">Input image</div>
+                <img
+                  src={v.input_image}
+                  className="rounded-lg border border-white/10 w-full min-h-[320px] sm:min-h-[420px] object-cover bg-slate-950"
+                  alt="Input imagery"
+                />
               </div>
             )}
             {v.grounding_overlay && (
               <div>
-                <div className="text-[11px] text-slate-500 mb-1">
-                  Grounded region <span className="text-slate-600">(click a box for details)</span>
+                <div className="text-[12px] text-slate-300 mb-1.5 font-mono">
+                  Grounded region <span className="text-cyan-400/80">(click a box for details)</span>
                 </div>
                 <ClickableRegionImage
-                  src={v.grounding_overlay} analysisId={result.analysis_id}
-                  className="rounded-md border border-white/10 w-full aspect-square object-cover"
+                  src={v.grounding_overlay}
+                  analysisId={result.analysis_id}
+                  className="rounded-lg border border-white/10 w-full min-h-[320px] sm:min-h-[420px] object-cover bg-slate-950"
                 />
               </div>
             )}

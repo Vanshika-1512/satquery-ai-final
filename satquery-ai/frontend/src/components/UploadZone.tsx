@@ -34,8 +34,12 @@ export default function UploadZone({
     <div className="w-full">
       <div className="text-[14px] font-semibold text-white mb-2">{label}</div>
       {current ? (
-        <div className="relative rounded-xl overflow-hidden border border-cyan-500/30 group shadow-[0_0_20px_rgba(34,211,238,0.1)]">
-          <img src={current.preview_url} alt={current.filename} className="w-full h-44 object-cover" />
+        <div className="relative rounded-xl overflow-hidden border border-cyan-500/30 group shadow-[0_0_20px_rgba(34,211,238,0.1)] bg-slate-950">
+          <img
+            src={current.preview_url}
+            alt={current.filename}
+            className="w-full h-80 sm:h-96 object-cover"
+          />
           <button
             onClick={() => onUploaded(null)}
             className="focus-ring absolute top-2 right-2 bg-slate-950/80 rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity text-white hover:text-cyan-400"
@@ -64,7 +68,7 @@ export default function UploadZone({
             if (f) handleFile(f);
           }}
           onClick={() => inputRef.current?.click()}
-          className={`focus-ring cursor-pointer h-44 rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-2 transition-all
+          className={`focus-ring cursor-pointer h-52 sm:h-60 rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-2 transition-all
           ${dragging ? "border-cyan-400 bg-cyan-950/30 shadow-[0_0_25px_rgba(34,211,238,0.2)]" : "border-slate-700/80 hover:border-cyan-400/60 hover:bg-slate-900/50"}`}
         >
           <input

@@ -1,6 +1,25 @@
 import type { AnalyzeResponse, HistoryItem, ImageMetadata, ModelCard, RegionFollowupResponse } from "../types";
 
-const BASE = "/api";
+const RAW_BASE = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.replace(/\/+$/, "") || "";
+const BASE = RAW_BASE ? `${RAW_BASE}/api` : "/api";
+
+export function resolveFileUrl(url?: string): string {
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:") || url.startsWith("blob:")) {
+    return url;
+  }
+  const cleanUrl = url.startsWith("/") ? url : `/${url}`;
+  return RAW_BASE ? `${RAW_BASE}${cleanUrl}` : cleanUrl;
+}
+
+function normalizeVisualOutputs(visualOutputs?: Record<string, string | undefined>) {
+  if (!visualOutputs) return;
+  for (const key of Object.keys(visualOutputs)) {
+    if (visualOutputs[key]) {
+      visualOutputs[key] = resolveFileUrl(visualOutputs[key]);
+    }
+  }
+}
 
 async function handle<T>(res: Response): Promise<T> {
   if (!res.ok) {
@@ -21,7 +40,11 @@ export const api = {
     const form = new FormData();
     form.append("file", file);
     const res = await fetch(`${BASE}/upload`, { method: "POST", body: form });
-    return handle<ImageMetadata>(res);
+    const meta = await handle<ImageMetadata>(res);
+    if (meta.preview_url) {
+      meta.preview_url = resolveFileUrl(meta.preview_url);
+    }
+    return meta;
   },
 
   async analyze(payload: {
@@ -36,7 +59,11 @@ export const api = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    return handle<AnalyzeResponse>(res);
+    const result = await handle<AnalyzeResponse>(res);
+    if (result.visual_outputs) {
+      normalizeVisualOutputs(result.visual_outputs as any);
+    }
+    return result;
   },
 
   async regionFollowup(analysisId: string, x: number, y: number): Promise<RegionFollowupResponse> {
@@ -55,7 +82,11 @@ export const api = {
 
   async getHistoryItem(id: string): Promise<AnalyzeResponse> {
     const res = await fetch(`${BASE}/history/${id}`);
-    return handle<AnalyzeResponse>(res);
+    const result = await handle<AnalyzeResponse>(res);
+    if (result.visual_outputs) {
+      normalizeVisualOutputs(result.visual_outputs as any);
+    }
+    return result;
   },
 
   async deleteHistoryItem(id: string): Promise<void> {
@@ -141,4 +172,3 @@ export const api = {
     return res.blob();
   },
 };
-
