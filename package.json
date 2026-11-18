@@ -1,0 +1,10 @@
+{
+  "name": "satquery-ai-root",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix satquery-ai/frontend",
+    "build": "npm run build --prefix satquery-ai/frontend",
+    "preview": "npm run preview --prefix satquery-ai/frontend"
+  }
+}
