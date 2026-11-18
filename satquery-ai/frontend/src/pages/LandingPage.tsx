@@ -45,11 +45,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#0B1118] text-[#E5EAF0] font-sans selection:bg-[#48A9A6]/25 selection:text-[#E5EAF0]">
       {/* ── 1. Interactive Satellite Overview Section ── */}
-      <SatelliteHeroSection
-        onDirectQuery={(q, mode) => {
-          navigate(`/analyze?q=${encodeURIComponent(q)}&mode=${mode}`);
-        }}
-      />
+      <SatelliteHeroSection />
 
       {/* ── 2. Fragmentation vs Unified Agent ───────────────── */}
       <section className="relative z-20 border-t border-[#273543] bg-[#101923] py-16">

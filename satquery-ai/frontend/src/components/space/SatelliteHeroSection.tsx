@@ -2,13 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ChevronDown,
-  ChevronUp,
-  Play,
-  Sparkles,
-  Mic,
   ArrowRight,
-  Satellite,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { SATELLITES, SatelliteInfo } from "./SatelliteData";
 import { EarthGlobe } from "./EarthGlobe";
@@ -19,20 +15,14 @@ interface SatelliteHeroSectionProps {
   onDirectQuery?: (query: string, mode: string) => void;
 }
 
-export const SatelliteHeroSection: React.FC<SatelliteHeroSectionProps> = ({ onDirectQuery }) => {
+export const SatelliteHeroSection: React.FC<SatelliteHeroSectionProps> = () => {
   const navigate = useNavigate();
 
   // Active satellite index (0: Sentinel-2, 1: Sentinel-1, 2: Landsat-9, 3: WorldView-3)
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Active scene: 0 = Hero Overview, 1 = Detailed Specs, 2 = Macro Analysis & Query
-  const [scene, setScene] = useState<0 | 1 | 2>(0);
-
   // Active satellite object
   const currentSat: SatelliteInfo = SATELLITES[activeIndex];
-
-  // Natural language query input state
-  const [queryInput, setQueryInput] = useState("");
 
   const handleNextSat = () => {
     setActiveIndex((prev) => (prev + 1) % SATELLITES.length);
@@ -42,16 +32,7 @@ export const SatelliteHeroSection: React.FC<SatelliteHeroSectionProps> = ({ onDi
     setActiveIndex((prev) => (prev - 1 + SATELLITES.length) % SATELLITES.length);
   };
 
-  const handleRunQuery = (q: string) => {
-    if (!q.trim()) return;
-    if (onDirectQuery) {
-      onDirectQuery(q, currentSat.presetMode);
-    } else {
-      navigate(`/analyze?q=${encodeURIComponent(q)}&mode=${currentSat.presetMode}`);
-    }
-  };
-
-  // Keyboard navigation (left/right for satellites, up/down for scenes)
+  // Keyboard navigation (left/right for satellites)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (document.activeElement?.tagName === "INPUT" || document.activeElement?.tagName === "TEXTAREA") {
@@ -59,8 +40,6 @@ export const SatelliteHeroSection: React.FC<SatelliteHeroSectionProps> = ({ onDi
       }
       if (e.key === "ArrowRight") handleNextSat();
       if (e.key === "ArrowLeft") handlePrevSat();
-      if (e.key === "ArrowDown") setScene((s) => (s < 2 ? ((s + 1) as 0 | 1 | 2) : s));
-      if (e.key === "ArrowUp") setScene((s) => (s > 0 ? ((s - 1) as 0 | 1 | 2) : s));
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -77,17 +56,14 @@ export const SatelliteHeroSection: React.FC<SatelliteHeroSectionProps> = ({ onDi
       />
 
       {/* ── Planet Earth Curvature ──────────────────── */}
-      <EarthGlobe
-        viewMode={scene === 0 ? "bottom" : scene === 1 ? "side" : "macro"}
-        showScanBeam={scene === 2}
-      />
+      <EarthGlobe viewMode="bottom" showScanBeam={false} />
 
       {/* ── Top Navigation Bar ── */}
       <header className="relative z-30 w-full border-b border-[#273543] bg-[#101923]">
         <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
           {/* Logo with satellite orbit glyph */}
           <div
-            onClick={() => { setScene(0); }}
+            onClick={() => navigate("/")}
             className="flex items-center gap-2.5 cursor-pointer group focus-ring rounded"
           >
             <Wordmark size={20} />
@@ -123,273 +99,94 @@ export const SatelliteHeroSection: React.FC<SatelliteHeroSectionProps> = ({ onDi
         </div>
       </header>
 
-      {/* ── Interactive Main Content Stages ─────────── */}
-      <main className="relative z-20 flex-1 flex flex-col justify-center items-center px-6 py-6">
-        {/* ══════════════════════════════════════════════════════
-            SCENE 0: HERO LANDING — Project Name, Tagline & Overview
-            ══════════════════════════════════════════════════════ */}
-        {scene === 0 && (
-          <div className="w-full max-w-6xl mx-auto flex flex-col items-center justify-between min-h-[calc(100vh-140px)]">
-            <div className="flex flex-col items-center text-center mt-6 md:mt-12 max-w-3xl px-4">
-              {/* Technical Monospace Tag */}
-              <div className="text-[11px] font-mono tracking-widest uppercase text-[#48A9A6] mb-3">
-                GEOSPATIAL REMOTE-SENSING INTELLIGENCE
-              </div>
-
-              {/* Project Name: SatQuery AI */}
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold text-[#E5EAF0] tracking-tight mb-2">
-                SatQuery <span className="text-[#48A9A6]">AI</span>
-              </h1>
-
-              {/* Tagline */}
-              <p className="text-lg sm:text-xl md:text-2xl font-normal text-[#9AA8B7] tracking-normal mb-3">
-                Ask Questions. Understand Earth.
-              </p>
-
-              {/* Restrained Accent Divider */}
-              <div className="w-12 h-0.5 rounded-full bg-[#48A9A6] my-3" />
-
-              {/* Problem Statement */}
-              <p className="text-[14px] md:text-[15px] text-[#9AA8B7] font-normal leading-relaxed max-w-2xl px-2 mb-6">
-                An interactive vision-language intelligence platform for multimodal Earth observation. Analyze optical, SAR radar, multispectral, and bi-temporal imagery through natural-language queries.
-              </p>
-
-              {/* Action Button: Get Started */}
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => navigate("/dashboard")}
-                  className="btn-primary focus-ring"
-                >
-                  <span>Launch Dashboard</span>
-                  <ArrowRight size={14} />
-                </button>
-                <button
-                  onClick={() => setScene(1)}
-                  className="btn-secondary focus-ring"
-                >
-                  <span>Sensor Specifications</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Center Main Satellite Visual */}
-            <div className="relative w-full max-w-4xl h-[260px] md:h-[320px] flex flex-col items-center justify-end">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentSat.id + "-main"}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.4 }}
-                  className="w-full h-full flex items-center justify-center cursor-pointer"
-                  onClick={() => setScene(1)}
-                  title="Click to view sensor telemetry and specifications"
-                >
-                  <RealisticSatellite type={currentSat.id} size="95%" isHero />
-                </motion.div>
-              </AnimatePresence>
-            </div>
+      {/* ── Hero Main Content ─────────── */}
+      <main className="relative z-20 flex-1 flex flex-col justify-between items-center px-6 py-8 max-w-6xl mx-auto w-full min-h-[calc(100vh-140px)]">
+        <div className="flex flex-col items-center text-center mt-6 md:mt-12 max-w-3xl px-4">
+          {/* Technical Monospace Tag */}
+          <div className="text-[11px] font-mono tracking-widest uppercase text-[#48A9A6] mb-3">
+            GEOSPATIAL REMOTE-SENSING INTELLIGENCE
           </div>
-        )}
 
-        {/* ══════════════════════════════════════════════════════
-            SCENE 1: DETAILED SPECIFICATIONS
-            ══════════════════════════════════════════════════════ */}
-        {scene === 1 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[calc(100vh-140px)] py-6"
-          >
-            {/* Left Column: Specs, Capabilities & Actions */}
-            <div className="lg:col-span-6 flex flex-col items-start px-4 z-20">
-              <button
-                onClick={() => setScene(0)}
-                className="flex items-center gap-1.5 text-xs text-[#48A9A6] hover:text-[#3D9491] font-mono mb-4 transition-colors focus-ring rounded"
+          {/* Project Name */}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold text-[#E5EAF0] tracking-tight mb-2">
+            SatQuery <span className="text-[#48A9A6]">AI</span>
+          </h1>
+
+          {/* Tagline */}
+          <p className="text-lg sm:text-xl md:text-2xl font-normal text-[#9AA8B7] tracking-normal mb-3">
+            Ask Questions. Understand Earth.
+          </p>
+
+          {/* Restrained Accent Divider */}
+          <div className="w-12 h-0.5 rounded-full bg-[#48A9A6] my-3" />
+
+          {/* Problem Statement */}
+          <p className="text-[14px] md:text-[15px] text-[#9AA8B7] font-normal leading-relaxed max-w-2xl px-2 mb-6">
+            An interactive vision-language intelligence platform for multimodal Earth observation. Analyze optical, SAR radar, multispectral, and bi-temporal imagery through natural-language queries.
+          </p>
+
+          {/* Single Action Button: Launch Dashboard */}
+          <div>
+            <button
+              onClick={() => navigate("/dashboard")}
+              className="btn-primary focus-ring"
+            >
+              <span>Launch Dashboard</span>
+              <ArrowRight size={14} />
+            </button>
+          </div>
+        </div>
+
+        {/* Center Main Satellite Visual with Satellite Switcher */}
+        <div className="relative w-full max-w-4xl flex flex-col items-center justify-end pb-4">
+          <div className="h-[240px] md:h-[300px] w-full flex items-center justify-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentSat.id + "-main"}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.35 }}
+                className="w-full h-full flex items-center justify-center"
               >
-                <ChevronUp size={14} />
-                <span>RETURN TO OVERVIEW</span>
-              </button>
+                <RealisticSatellite type={currentSat.id} size="95%" isHero />
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
-              <div className="text-[11px] font-mono tracking-wider uppercase text-[#48A9A6] mb-1">
-                MULTIMODAL SENSOR FLEET
-              </div>
-
-              <h2 className="text-3xl sm:text-4xl font-semibold text-[#E5EAF0] tracking-tight mb-3">
-                {currentSat.name}
-              </h2>
-
-              <p className="text-[14px] text-[#9AA8B7] leading-relaxed mb-6">
-                SatQuery AI automatically identifies sensor modalities, validates ephemeris parameters, and routes natural language queries to calibrated specialist vision engines for grounded, pixel-accurate reasoning.
-              </p>
-
-              {/* Key Specs Telemetry Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 w-full mb-6">
-                {[
-                  { label: "ORBIT", value: currentSat.specs.find((s) => s.label === "ORBIT")?.value || "786 km SSO" },
-                  { label: "SENSOR", value: currentSat.sensorType },
-                  { label: "BANDS", value: currentSat.specs.find((s) => s.label === "PAYLOAD")?.value || "Multispectral" },
-                  { label: "SWATH", value: currentSat.specs.find((s) => s.label === "SWATH")?.value || "290 km" },
-                  { label: "REASONING", value: "Auditable Trace" },
-                  { label: "CONFIDENCE", value: "Calibrated Score" },
-                ].map((spec) => (
-                  <div
-                    key={spec.label}
-                    className="p-3 rounded border border-[#273543] bg-[#141F2A]"
-                  >
-                    <div className="text-[10px] font-mono text-[#718096] uppercase tracking-wider mb-1">
-                      {spec.label}
-                    </div>
-                    <div className="data text-[12px] font-medium text-[#E5EAF0] truncate">
-                      {spec.value}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Actions */}
-              <div className="flex items-center gap-3">
+          {/* Subtle Satellite Fleet Switcher */}
+          <div className="flex items-center gap-2 mt-2">
+            <button
+              onClick={handlePrevSat}
+              className="p-1 rounded text-[#718096] hover:text-[#E5EAF0] transition-colors"
+              title="Previous satellite"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <div className="flex items-center gap-1.5">
+              {SATELLITES.map((sat, i) => (
                 <button
-                  onClick={() => setScene(2)}
-                  className="btn-primary focus-ring"
+                  key={sat.id}
+                  onClick={() => setActiveIndex(i)}
+                  className={`px-2.5 py-1 rounded text-[11px] font-mono transition-colors border ${
+                    activeIndex === i
+                      ? "bg-[#141F2A] border-[#48A9A6] text-[#48A9A6]"
+                      : "bg-[#101923] border-[#273543] text-[#718096] hover:text-[#9AA8B7]"
+                  }`}
                 >
-                  <span>Query Dispatch Interface</span>
-                  <ArrowRight size={14} />
+                  {sat.name}
                 </button>
-                <button
-                  onClick={() => navigate("/analyze")}
-                  className="btn-secondary focus-ring"
-                >
-                  <Play size={14} />
-                  <span>Open Workspace</span>
-                </button>
-              </div>
+              ))}
             </div>
-
-            {/* Right Column: Satellite Diagram */}
-            <div className="lg:col-span-6 relative w-full h-[340px] md:h-[480px] flex items-center justify-center z-10">
-              <RealisticSatellite type={currentSat.id} size="95%" isSideView />
-            </div>
-          </motion.div>
-        )}
-
-        {/* ══════════════════════════════════════════════════════
-            SCENE 2: MACRO SCAN & QUERY ANALYSIS
-            ══════════════════════════════════════════════════════ */}
-        {scene === 2 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[calc(100vh-140px)] py-6"
-          >
-            {/* Left Column: Sensor Status & Ephemeris */}
-            <div className="lg:col-span-5 flex flex-col justify-center px-4 z-20">
-              <button
-                onClick={() => setScene(1)}
-                className="flex items-center gap-1.5 text-xs text-[#48A9A6] hover:text-[#3D9491] font-mono mb-4 transition-colors focus-ring rounded"
-              >
-                <ChevronUp size={14} />
-                <span>RETURN TO SPECIFICATIONS</span>
-              </button>
-
-              <div className="p-4 rounded border border-[#273543] bg-[#141F2A] mb-3">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="w-2 h-2 rounded-full bg-[#6BA88B]" />
-                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#E5EAF0] font-medium">
-                    ACTIVE SENSOR FEED // {currentSat.name}
-                  </span>
-                </div>
-                <div className="text-[13px] text-[#9AA8B7] leading-relaxed">
-                  {currentSat.macroDesc}
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 p-3 rounded border border-[#273543] bg-[#101923] text-[11px] font-mono text-[#9AA8B7]">
-                <Satellite size={15} className="text-[#48A9A6] shrink-0" />
-                <span>EPHEMERIS: SSO 98.6° INCLINATION · SWATH: {currentSat.specs.find((s) => s.label === "SWATH")?.value || "290 km"}</span>
-              </div>
-            </div>
-
-            {/* Right Column: Query Input Box */}
-            <div className="lg:col-span-7 flex flex-col px-4 z-20">
-              <h3 className="text-2xl font-semibold text-[#E5EAF0] tracking-tight mb-2">
-                Natural-Language Geospatial Reasoning
-              </h3>
-              <p className="text-[14px] text-[#9AA8B7] leading-relaxed mb-5 max-w-xl">
-                Formulate a query in plain English. SatQuery’s agentic controller classifies the task, validates spectral bands, routes to specialist vision models, and computes calibrated confidence scores.
-              </p>
-
-              <div className="w-full rounded border border-[#273543] bg-[#141F2A] p-5">
-                <div className="flex items-center justify-between mb-3 text-xs font-mono text-[#48A9A6]">
-                  <span className="flex items-center gap-1.5">
-                    <Sparkles size={13} />
-                    <span>QUERY DISPATCH CONTROLLER</span>
-                  </span>
-                  <span className="text-[#718096]">MODE: {currentSat.sensorType}</span>
-                </div>
-
-                <div className="relative mb-3">
-                  <textarea
-                    value={queryInput}
-                    onChange={(e) => setQueryInput(e.target.value)}
-                    onKeyDown={(e) => {
-                      if ((e.ctrlKey || e.metaKey || e.key === "Enter") && queryInput.trim()) {
-                        e.preventDefault();
-                        handleRunQuery(queryInput);
-                      }
-                    }}
-                    placeholder={`Ask SatQuery anything about your ${currentSat.name} scene… e.g. '${currentSat.suggestedQueries[0]}'`}
-                    rows={2}
-                    className="w-full rounded px-3.5 py-3 pr-10 text-[14px] bg-[#101923] text-[#E5EAF0] border border-[#273543] focus:border-[#48A9A6] outline-none resize-none transition-colors placeholder:text-[#718096]"
-                  />
-                  <Mic size={16} className="absolute right-3.5 top-3.5 text-[#718096] hover:text-[#48A9A6] cursor-pointer transition-colors" />
-                </div>
-
-                {/* Suggested Chips */}
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {currentSat.suggestedQueries.map((chip) => (
-                    <button
-                      key={chip}
-                      onClick={() => {
-                        setQueryInput(chip);
-                        handleRunQuery(chip);
-                      }}
-                      className="text-[12px] px-2.5 py-1 rounded border border-[#273543] bg-[#192633] text-[#9AA8B7] hover:text-[#E5EAF0] hover:border-[#48A9A6] transition-colors font-normal text-left"
-                    >
-                      {chip}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="flex items-center justify-between pt-3 border-t border-[#273543]">
-                  <div className="text-[11px] font-mono text-[#718096]">
-                    Press <kbd className="px-1 py-0.5 rounded bg-[#101923] border border-[#273543] text-[#9AA8B7]">Enter</kbd> to execute
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => navigate(`/analyze?mode=${currentSat.presetMode}`)}
-                      className="text-[12px] text-[#9AA8B7] hover:text-[#E5EAF0] transition-colors"
-                    >
-                      Upload custom imagery →
-                    </button>
-                    <button
-                      disabled={!queryInput.trim()}
-                      onClick={() => handleRunQuery(queryInput)}
-                      className="btn-primary"
-                    >
-                      <span>Execute Query</span>
-                      <ArrowRight size={14} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
+            <button
+              onClick={handleNextSat}
+              className="p-1 rounded text-[#718096] hover:text-[#E5EAF0] transition-colors"
+              title="Next satellite"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        </div>
       </main>
     </section>
   );
