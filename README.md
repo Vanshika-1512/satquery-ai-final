@@ -3,7 +3,7 @@
 **Ask Questions. Understand Earth.**  
 *An Interactive Vision-Language Assistant for Multimodal Remote-Sensing Image Analysis through Text Queries.*
 
-🌐 Live Demo: https://satquery-ai-final-dxey.vercel.app/
+🌐 Live Demo: https://satquery-ai-final-lwhw.vercel.app/
 
 SatQuery AI is a production-grade, agentic Earth observation platform that empowers users to upload remote-sensing imagery and ask natural-language questions. The system autonomously interprets queries, validates sensor configurations, selects specialist computer vision and deep learning models, executes analysis pipelines, and synthesizes evidence-grounded, confidence-scored, auditable answers with pixel-level overlays and complete execution traces.
 
