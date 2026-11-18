@@ -4,17 +4,16 @@ import { api } from "../services/api";
 
 import type { RegionFollowupResponse } from "../types";
 
-/** A targeting reticle, not a generic map pin — fits satellite imagery
- * inspection rather than a consumer-maps interaction. */
+/** A targeting reticle for precision satellite imagery inspection. */
 function Reticle() {
   return (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-      <circle cx="11" cy="11" r="7" stroke="#D98E3F" strokeWidth="1.4" />
-      <circle cx="11" cy="11" r="1.6" fill="#D98E3F" />
-      <line x1="11" y1="0" x2="11" y2="4" stroke="#D98E3F" strokeWidth="1.4" />
-      <line x1="11" y1="18" x2="11" y2="22" stroke="#D98E3F" strokeWidth="1.4" />
-      <line x1="0" y1="11" x2="4" y2="11" stroke="#D98E3F" strokeWidth="1.4" />
-      <line x1="18" y1="11" x2="22" y2="11" stroke="#D98E3F" strokeWidth="1.4" />
+      <circle cx="11" cy="11" r="7" stroke="#48A9A6" strokeWidth="1.4" />
+      <circle cx="11" cy="11" r="1.6" fill="#48A9A6" />
+      <line x1="11" y1="0" x2="11" y2="4" stroke="#48A9A6" strokeWidth="1.4" />
+      <line x1="11" y1="18" x2="11" y2="22" stroke="#48A9A6" strokeWidth="1.4" />
+      <line x1="0" y1="11" x2="4" y2="11" stroke="#48A9A6" strokeWidth="1.4" />
+      <line x1="18" y1="11" x2="22" y2="11" stroke="#48A9A6" strokeWidth="1.4" />
     </svg>
   );
 }
@@ -45,8 +44,6 @@ export default function ClickableRegionImage({
     setSummary(null);
     setLoading(true);
 
-    // Map the click fraction to the image's natural pixel dimensions —
-    // that's the coordinate space the backend's stored regions use.
     const naturalX = Math.round(clickXFrac * img.naturalWidth);
     const naturalY = Math.round(clickYFrac * img.naturalHeight);
 
@@ -74,14 +71,14 @@ export default function ClickableRegionImage({
       />
       {marker && (
         <div
-          className="absolute -translate-x-1/2 -translate-y-1/2"
+          className="absolute -translate-x-1/2 -translate-y-1/2 z-10"
           style={{ left: `${marker.left}%`, top: `${marker.top}%` }}
         >
           <Reticle />
-          <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 min-w-[180px] max-w-[240px] panel rounded-md px-3 py-2 text-[11px] text-slate-200 shadow-glow">
+          <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 min-w-[200px] max-w-[260px] rounded-md px-3 py-2 text-[11px] font-mono text-[#E5EAF0] bg-[#101923] border border-[#273543] shadow-lg">
             {loading ? (
-              <span className="flex items-center gap-1.5 text-slate-400">
-                <Loader2 size={12} className="animate-spin" /> Checking region…
+              <span className="flex items-center gap-1.5 text-[#9AA8B7]">
+                <Loader2 size={12} className="animate-spin text-[#48A9A6]" /> Inspecting spatial coordinates…
               </span>
             ) : (
               summary

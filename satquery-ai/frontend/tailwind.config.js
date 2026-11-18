@@ -4,49 +4,40 @@ export default {
   theme: {
     extend: {
       colors: {
-        cosmos: {
-          950: "#02050E",
-          900: "#040916",
-          850: "#071224",
-          800: "#0c1b38",
-          750: "#102347",
-          700: "#172b52",
-          600: "#224177",
-          cyan: "#22d3ee",
-        },
-        // ── Background scale (warm dark brown) ──────────────
-        space: {
-          950: "#120D0A",  // deepest ink — page background
-          900: "#1A1410",  // neutral dark
-          850: "#1C1510",  // panel surface
-          800: "#221812",  // slightly lighter panel
-          700: "#2E2018",  // border / divider
-          600: "#44342A",  // hover surface / muted
-        },
-        // ── Accent scale (warm earthy palette) ──────────────
-        accent: {
-          primary:   "#FFDBBB",   // Primary  — peach cream (CTAs, active states)
-          secondary: "#CCBEB1",   // Secondary — warm beige (secondary text/elements)
-          tertiary:  "#997E67",   // Tertiary  — warm brown (labels, muted)
-          positive:  "#8FAF8A",   // Positive  — muted sage green
-          negative:  "#C47A6A",   // Negative  — warm clay red
-          cyan:   "#22d3ee",
-          blue:   "#38bdf8",
-          amber:  "#f59e0b",
-          teal:   "#14b8a6",
-          red:    "#ef4444",
+        geo: {
+          bg: "#0B1118",
+          secondary: "#101923",
+          surface: "#141F2A",
+          elevated: "#192633",
+          border: "#273543",
+          "border-light": "#36485C",
+          text: "#E5EAF0",
+          muted: "#9AA8B7",
+          subtle: "#718096",
+          accent: "#48A9A6",
+          "accent-hover": "#3D9491",
+          blue: "#648DB5",
+          "blue-hover": "#54789B",
+          success: "#6BA88B",
+          warning: "#D3A35C",
+          error: "#CF7777",
         },
       },
       fontFamily: {
-        sans:      ["Plus Jakarta Sans", "system-ui", "sans-serif"],
-        display:   ["Plus Jakarta Sans", "Space Grotesk", "system-ui", "sans-serif"],
-        label:     ["Space Grotesk", "system-ui", "sans-serif"],
-        mono:      ["IBM Plex Mono", "ui-monospace", "monospace"],
-        serifHero: ["Playfair Display", "Cinzel", "serif"],
-        cinzel:    ["Cinzel", "serif"],
+        sans: ["'IBM Plex Sans'", "system-ui", "-apple-system", "sans-serif"],
+        mono: ["'IBM Plex Mono'", "ui-monospace", "monospace"],
+      },
+      borderRadius: {
+        DEFAULT: "4px",
+        sm: "2px",
+        md: "6px",
+        lg: "8px",
+        xl: "10px",
+        "2xl": "12px",
       },
       boxShadow: {
-        glow: "0 1px 0 rgba(255,219,187,0.20), 0 10px 24px -12px rgba(18,13,10,0.7)",
+        subtle: "0 1px 3px 0 rgba(0, 0, 0, 0.35)",
+        card: "0 2px 8px -1px rgba(0, 0, 0, 0.45)",
       },
     },
   },

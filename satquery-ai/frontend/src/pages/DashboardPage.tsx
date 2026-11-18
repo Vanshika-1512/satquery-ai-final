@@ -3,37 +3,21 @@ import { useNavigate } from "react-router-dom";
 import {
   Image as ImageIcon,
   MessageSquareText,
-  Layers,
   Activity,
   Eye,
   Cpu,
   Zap,
   ChevronRight,
   Satellite,
-  Radar,
   ArrowRight,
-  Sparkles,
 } from "lucide-react";
-import { Badge, Card3D } from "../components/ui/primitives";
+import { Badge, Card } from "../components/ui/primitives";
 import { taskLabel } from "../utils/format";
 import { api } from "../services/api";
 import type { HistoryItem } from "../types";
 import { RealisticSatellite } from "../components/space/RealisticSatellites";
 
-/* ── Deep Space Theme Palette ────────────────────────────── */
-const C = {
-  bg:      "#030712",
-  panel:   "#08142c",
-  border:  "rgba(56, 189, 248, 0.18)",
-  hover:   "#172b52",
-  primary: "#22d3ee",
-  second:  "#cbd5e1",
-  third:   "#64748b",
-  text:    "#f8fafc",
-  pos:     "#34d399",
-};
-
-/* ── Stat card ──────────────────────────────────────────── */
+/* ── Stat Card Component ─────────────────────────────────── */
 function StatCard({
   label,
   value,
@@ -48,29 +32,29 @@ function StatCard({
   color: string;
 }) {
   return (
-    <Card3D className="!p-4 flex flex-col justify-between border border-cyan-500/20 bg-slate-900/60 backdrop-blur-md">
+    <div className="p-4 rounded border border-[#273543] bg-[#141F2A] flex flex-col justify-between">
       <div>
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-[12px] tracking-wider uppercase font-mono font-bold text-cyan-400">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-[#9AA8B7]">
             {label}
           </span>
-          <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-400/20 flex items-center justify-center text-cyan-400">
-            <Icon size={16} />
+          <div className="w-7 h-7 rounded bg-[#101923] border border-[#273543] flex items-center justify-center text-[#48A9A6]">
+            <Icon size={14} />
           </div>
         </div>
         <div
-          className="font-mono text-3xl sm:text-4xl font-black leading-none drop-shadow-[0_0_12px_rgba(34,211,238,0.3)] mb-2"
+          className="data text-2xl sm:text-3xl font-semibold leading-none mb-2"
           style={{ color }}
         >
           {value}
         </div>
       </div>
-      {sub && <div className="text-[11px] font-mono text-slate-400 font-medium">{sub}</div>}
-    </Card3D>
+      {sub && <div className="text-[11px] font-mono text-[#718096]">{sub}</div>}
+    </div>
   );
 }
 
-/* ── Main Dashboard Component ────────────────────────────── */
+/* ── Main Dashboard Page ─────────────────────────────────── */
 export default function DashboardPage() {
   const navigate = useNavigate();
   const [recent, setRecent] = useState<HistoryItem[]>([]);
@@ -87,157 +71,146 @@ export default function DashboardPage() {
   }, []);
 
   return (
-    <div className="px-6 py-6 max-w-[1340px] mx-auto space-y-6">
-      {/* ── Hero Banner with Animated Satellite Visual ── */}
-      <Card3D
-        config={{ maxTilt: 2, scale: 1.002, parallax: false }}
-        className="!p-8 relative overflow-hidden border border-cyan-500/25 bg-slate-900/60 backdrop-blur-xl shadow-[0_0_40px_rgba(0,0,0,0.5)]"
-      >
-        <div className="absolute inset-0 graticule opacity-20 pointer-events-none" />
-
+    <div className="px-6 py-6 max-w-[1340px] mx-auto space-y-6 bg-[#0B1118]">
+      {/* ── Hero Banner ── */}
+      <div className="p-6 sm:p-8 rounded border border-[#273543] bg-[#141F2A] relative overflow-hidden">
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-          {/* Left Text & Actions (8 cols) */}
+          {/* Left Text & Actions */}
           <div className="lg:col-span-8">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <div className="text-[12px] tracking-[0.25em] uppercase font-mono font-bold text-cyan-400">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="w-2 h-2 rounded-full bg-[#48A9A6]" />
+              <div className="text-[11px] tracking-wider uppercase font-mono font-medium text-[#48A9A6]">
                 EARTH OBSERVATION ORCHESTRATOR
               </div>
             </div>
 
-            <h1
-              className="text-3xl sm:text-4xl md:text-5xl font-normal text-white mb-3"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              Ask questions. Understand Earth.
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#E5EAF0] tracking-tight mb-2">
+              Multimodal Geospatial Intelligence
             </h1>
 
-            <p className="text-[14px] text-slate-300 max-w-xl mb-6 leading-relaxed font-light">
-              An agentic vision-language assistant for multimodal remote-sensing intelligence — optical, SAR radar,
-              multispectral, and multitemporal imagery, one natural-language query at a time.
+            <p className="text-[14px] text-[#9AA8B7] max-w-xl mb-6 leading-relaxed">
+              Autonomous reasoning across optical multispectral, SAR radar, and bi-temporal remote-sensing data feeds through natural language.
             </p>
 
-            <div className="flex items-center gap-4 flex-wrap">
+            <div className="flex items-center gap-3 flex-wrap">
               <button
                 onClick={() => navigate("/missions")}
-                className="glow-pill-btn px-7 py-3 rounded-full font-bold text-[13px] tracking-wider uppercase flex items-center gap-2"
+                className="btn-primary"
               >
-                <Zap size={16} />
+                <Zap size={14} />
                 <span>Mission Mode Investigation</span>
               </button>
 
               <button
                 onClick={() => navigate("/analyze")}
-                className="px-6 py-3 rounded-full font-semibold text-[13px] border border-cyan-500/40 text-cyan-300 hover:bg-cyan-950/40 hover:border-cyan-400 transition-all flex items-center gap-2"
+                className="btn-secondary"
               >
                 <span>Query &amp; Analyze</span>
                 <ArrowRight size={14} />
               </button>
-
             </div>
           </div>
 
-          {/* Right Floating Satellite Visual (4 cols) */}
-          <div className="lg:col-span-4 relative h-48 lg:h-56 flex items-center justify-center">
-            <div className="w-full h-full relative flex items-center justify-center">
-              <RealisticSatellite type="sentinel-2" size="90%" isHero />
+          {/* Right Floating Satellite Visual */}
+          <div className="lg:col-span-4 relative h-44 lg:h-52 flex items-center justify-center">
+            <div className="w-full h-full relative flex items-center justify-center opacity-90">
+              <RealisticSatellite type="sentinel-2" size="85%" isHero />
             </div>
           </div>
         </div>
-      </Card3D>
+      </div>
 
       {/* ── Key Metrics Stat Row ────────────────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <StatCard
-          label="Images Analyzed"
+          label="Scenes Ingested"
           value={stats.analyzed}
-          sub={`${stats.analyzed * 2} SCENE INGEST · 100% VALIDATED`}
+          sub={`${stats.analyzed * 2} CALIBRATED FEEDS · 100% VALIDATED`}
           icon={ImageIcon}
-          color="#22d3ee"
+          color="#E5EAF0"
         />
         <StatCard
-          label="Queries Processed"
+          label="Queries Executed"
           value={stats.queries}
-          sub="~420ms LATENCY · 0 HALLUCINATIONS"
+          sub="~420ms INFERENCE LATENCY"
           icon={MessageSquareText}
-          color="#38bdf8"
+          color="#48A9A6"
         />
         <StatCard
-          label="Specialist AI Models"
+          label="Active Specialist Models"
           value={7}
           sub="VQA · GROUNDING · CHANGE · SAR"
           icon={Cpu}
-          color="#a855f7"
+          color="#648DB5"
         />
       </div>
 
-      {/* ── Two-Column Main Content ─────────────────────────── */}
+      {/* ── Recent Analyses Section ─────────────────────────── */}
       <div className="w-full">
-        {/* Recent Analyses Card */}
-        <Card3D className="!p-6 border border-cyan-500/20 bg-slate-900/60 backdrop-blur-xl">
-          <div className="flex items-center justify-between mb-5">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-400/20 flex items-center justify-center text-cyan-400">
-                <Activity size={18} />
+        <Card className="!p-5">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded bg-[#101923] border border-[#273543] flex items-center justify-center text-[#48A9A6]">
+                <Activity size={14} />
               </div>
               <div>
-                <h2 className="text-[17px] font-bold text-white">Recent Analyses</h2>
-                <div className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest">
+                <h2 className="text-[15px] font-medium text-[#E5EAF0]">Recent Analyses</h2>
+                <div className="text-[10px] font-mono text-[#718096] uppercase tracking-wider">
                   Multi-Temporal Sensor Sessions
                 </div>
               </div>
             </div>
             <button
               onClick={() => navigate("/history")}
-              className="flex items-center gap-1 text-[13px] font-medium text-cyan-400 hover:text-cyan-300 transition-colors"
+              className="flex items-center gap-1 text-[12px] font-mono text-[#48A9A6] hover:text-[#3D9491] transition-colors"
             >
-              <span>View All</span>
-              <ChevronRight size={14} />
+              <span>View Archive</span>
+              <ChevronRight size={13} />
             </button>
           </div>
 
           {recent.length === 0 ? (
-            <div className="p-12 text-center rounded-xl border border-dashed border-slate-800 bg-slate-950/40">
-              <Satellite size={32} className="mx-auto text-slate-600 mb-3" />
-              <div className="text-[15px] font-medium text-slate-300 mb-1">
-                No analyses recorded yet
+            <div className="p-8 text-center rounded border border-dashed border-[#273543] bg-[#101923]">
+              <Satellite size={28} className="mx-auto text-[#718096] mb-2" />
+              <div className="text-[14px] font-medium text-[#9AA8B7] mb-1">
+                No analyses recorded in this session
               </div>
-              <p className="text-[13px] text-slate-500 mb-4 max-w-sm mx-auto font-light">
+              <p className="text-[12px] text-[#718096] mb-4 max-w-sm mx-auto">
                 Upload imagery and ask your first question to view specialist routing traces and confidence metrics.
               </p>
               <button
                 onClick={() => navigate("/analyze")}
-                className="glow-pill-btn px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider"
+                className="btn-primary text-xs"
               >
                 Start First Analysis
               </button>
             </div>
           ) : (
-            <div className="space-y-2.5">
+            <div className="space-y-2">
               {recent.map((r) => (
                 <div
                   key={r.analysis_id}
                   onClick={() => navigate("/history")}
-                  className="w-full text-left flex items-center justify-between p-3.5 rounded-xl border border-slate-800/80 bg-slate-900/40 hover:border-cyan-400/50 hover:bg-slate-900/70 transition-all cursor-pointer group"
+                  className="w-full text-left flex items-center justify-between p-3 rounded border border-[#273543] bg-[#101923] hover:bg-[#192633] hover:border-[#36485C] transition-colors cursor-pointer group"
                 >
-                  <div className="flex items-center gap-3.5 min-w-0">
-                    <div className="w-9 h-9 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-center text-cyan-400 shrink-0 group-hover:scale-105 transition-transform">
-                      <Eye size={15} />
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-8 h-8 rounded bg-[#141F2A] border border-[#273543] flex items-center justify-center text-[#48A9A6] shrink-0">
+                      <Eye size={14} />
                     </div>
                     <div className="min-w-0">
-                      <div className="text-[14px] font-medium text-white truncate group-hover:text-cyan-300 transition-colors">
+                      <div className="text-[13px] font-medium text-[#E5EAF0] truncate group-hover:text-[#48A9A6] transition-colors">
                         {r.query}
                       </div>
                       <div className="flex items-center gap-2 mt-1">
-                        <Badge tone="cyan">{taskLabel(r.task)}</Badge>
-                        <span className="text-[11px] font-mono text-slate-400">
+                        <Badge tone="teal">{taskLabel(r.task)}</Badge>
+                        <span className="data text-[11px] text-[#718096]">
                           {new Date(r.timestamp).toLocaleDateString()}
                         </span>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0 ml-4">
-                    <span className="text-[11px] font-mono px-2.5 py-1 rounded-full border border-slate-700 bg-slate-800/60 text-slate-300 group-hover:border-cyan-400/60 group-hover:text-cyan-300 transition-colors">
+                    <span className="text-[11px] font-mono px-2 py-0.5 rounded border border-[#273543] bg-[#141F2A] text-[#9AA8B7] group-hover:border-[#36485C] group-hover:text-[#E5EAF0] transition-colors">
                       Inspect Trace →
                     </span>
                   </div>
@@ -245,8 +218,7 @@ export default function DashboardPage() {
               ))}
             </div>
           )}
-        </Card3D>
-
+        </Card>
       </div>
     </div>
   );

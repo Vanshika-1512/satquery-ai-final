@@ -47,7 +47,7 @@ export const SATELLITES: SatelliteInfo[] = [
       "Highlight forest canopy changes and clearcuts",
     ],
     presetMode: "single",
-    accentColor: "#22d3ee",
+    accentColor: "#48A9A6",
     sensorType: "Optical Multispectral",
   },
   {
@@ -77,7 +77,7 @@ export const SATELLITES: SatelliteInfo[] = [
       "Measure surface roughness and urban double-bounce",
     ],
     presetMode: "optical_sar",
-    accentColor: "#38bdf8",
+    accentColor: "#648DB5",
     sensorType: "C-Band SAR Radar",
   },
   {
@@ -107,7 +107,7 @@ export const SATELLITES: SatelliteInfo[] = [
       "Estimate surface vegetation loss percentage",
     ],
     presetMode: "before_after",
-    accentColor: "#60a5fa",
+    accentColor: "#6BA88B",
     sensorType: "Thermal & Multispectral",
   },
   {
@@ -137,7 +137,7 @@ export const SATELLITES: SatelliteInfo[] = [
       "Inspect roof structural damage after severe weather",
     ],
     presetMode: "single",
-    accentColor: "#a855f7",
+    accentColor: "#D3A35C",
     sensorType: "Sub-Meter VHR Optical",
   },
 ];

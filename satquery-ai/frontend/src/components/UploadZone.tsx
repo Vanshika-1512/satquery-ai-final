@@ -32,9 +32,9 @@ export default function UploadZone({
 
   return (
     <div className="w-full">
-      <div className="text-[14px] font-semibold text-white mb-2">{label}</div>
+      <div className="text-[13px] font-medium text-[#E5EAF0] mb-2">{label}</div>
       {current ? (
-        <div className="relative rounded-xl overflow-hidden border border-cyan-500/30 group shadow-[0_0_20px_rgba(34,211,238,0.1)] bg-slate-950">
+        <div className="relative rounded-md overflow-hidden border border-[#273543] group bg-[#101923]">
           <img
             src={current.preview_url}
             alt={current.filename}
@@ -42,16 +42,17 @@ export default function UploadZone({
           />
           <button
             onClick={() => onUploaded(null)}
-            className="focus-ring absolute top-2 right-2 bg-slate-950/80 rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity text-white hover:text-cyan-400"
+            className="focus-ring absolute top-2 right-2 bg-[#101923]/90 rounded p-1.5 opacity-0 group-hover:opacity-100 transition-opacity text-[#9AA8B7] hover:text-[#E5EAF0]"
+            title="Remove image"
           >
-            <X size={16} />
+            <X size={15} />
           </button>
-          <div className="absolute bottom-0 left-0 right-0 bg-[#030712]/90 backdrop-blur-md px-3.5 py-2.5 text-[12px] data border-t border-slate-800">
-            <div className="flex justify-between text-white font-medium">
+          <div className="absolute bottom-0 left-0 right-0 bg-[#141F2A]/95 px-3.5 py-2.5 text-[12px] font-mono border-t border-[#273543]">
+            <div className="flex justify-between text-[#E5EAF0] font-medium">
               <span className="truncate max-w-[60%]">{current.filename}</span>
-              <span className="text-cyan-300">{current.width}×{current.height}px</span>
+              <span className="text-[#48A9A6]">{current.width}×{current.height}px</span>
             </div>
-            <div className="flex justify-between text-slate-400 mt-0.5">
+            <div className="flex justify-between text-[#9AA8B7] mt-0.5 text-[11px]">
               <span>bands: {current.bands}</span>
               <span>modality: {current.modality_guess}</span>
             </div>
@@ -68,25 +69,37 @@ export default function UploadZone({
             if (f) handleFile(f);
           }}
           onClick={() => inputRef.current?.click()}
-          className={`focus-ring cursor-pointer h-52 sm:h-60 rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-2 transition-all
-          ${dragging ? "border-cyan-400 bg-cyan-950/30 shadow-[0_0_25px_rgba(34,211,238,0.2)]" : "border-slate-700/80 hover:border-cyan-400/60 hover:bg-slate-900/50"}`}
+          className={`focus-ring cursor-pointer h-52 sm:h-60 rounded-md border border-dashed flex flex-col items-center justify-center gap-2 transition-colors ${
+            dragging
+              ? "border-[#48A9A6] bg-[#141F2A]"
+              : "border-[#273543] hover:border-[#48A9A6]/60 bg-[#101923]/40 hover:bg-[#101923]"
+          }`}
         >
           <input
-            ref={inputRef} type="file" className="hidden" accept=".tif,.tiff,.png,.jpg,.jpeg"
+            ref={inputRef}
+            type="file"
+            className="hidden"
+            accept=".tif,.tiff,.png,.jpg,.jpeg"
             onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }}
           />
           {busy ? (
-            <span className="text-sm text-cyan-300 animate-pulse">Uploading and extracting spectral metadata…</span>
+            <span className="text-[13px] text-[#48A9A6] font-mono animate-pulse">
+              Uploading and extracting spectral metadata…
+            </span>
           ) : (
             <>
-              <UploadCloud size={32} className="text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
-              <span className="text-[14px] font-medium text-white">Drag &amp; drop or click to upload satellite imagery</span>
-              <span className="text-[12px] text-slate-400">GeoTIFF, Multispectral TIFF, PNG, JPEG</span>
+              <UploadCloud size={28} className="text-[#48A9A6]" />
+              <span className="text-[13px] font-medium text-[#E5EAF0]">
+                Drag &amp; drop or click to upload satellite imagery
+              </span>
+              <span className="text-[11px] text-[#718096] font-mono">
+                GeoTIFF, Multispectral TIFF, PNG, JPEG
+              </span>
             </>
           )}
         </div>
       )}
-      {error && <div className="text-[11px] text-rose-400 mt-1 font-mono">{error}</div>}
+      {error && <div className="text-[11px] text-[#CF7777] mt-1.5 font-mono">{error}</div>}
     </div>
   );
 }

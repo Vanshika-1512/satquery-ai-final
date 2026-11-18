@@ -209,14 +209,14 @@ export const EarthGlobe: React.FC<EarthGlobeProps> = ({
             <svg viewBox="0 0 1000 1000" className="w-full h-full">
               <defs>
                 <linearGradient id="scanBeamGrad" x1="0%" y1="0%" x2="60%" y2="70%">
-                  <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.8" />
-                  <stop offset="50%" stopColor="#0284c7" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0.0" />
+                  <stop offset="0%" stopColor="#48A9A6" stopOpacity="0.7" />
+                  <stop offset="50%" stopColor="#648DB5" stopOpacity="0.2" />
+                  <stop offset="100%" stopColor="#648DB5" stopOpacity="0.0" />
                 </linearGradient>
               </defs>
               <polygon points="350,150 200,600 550,550" fill="url(#scanBeamGrad)" />
               {/* Ground Track Swath Footprint */}
-              <ellipse cx="375" cy="575" rx="180" ry="40" fill="rgba(34, 211, 238, 0.15)" stroke="#22d3ee" strokeWidth="1.5" strokeDasharray="6 4" />
+              <ellipse cx="375" cy="575" rx="180" ry="40" fill="rgba(72, 169, 166, 0.1)" stroke="#48A9A6" strokeWidth="1.2" strokeDasharray="6 4" />
             </svg>
           </motion.div>
         )}

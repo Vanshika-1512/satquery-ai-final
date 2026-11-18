@@ -167,11 +167,11 @@ export const Sentinel2Model: React.FC<{ isHero?: boolean; isSideView?: boolean }
             {/* Dark cylindrical aperture barrel */}
             <rect x="-24" y="-24" width="48" height="48" rx="24" fill="#0f172a" stroke="#cbd5e1" strokeWidth="2" />
             <circle cx="0" cy="0" r="20" fill="url(#msiLens)" />
-            {/* Cyan glowing focal ring */}
-            <circle cx="0" cy="0" r="14" stroke="#22d3ee" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.8" />
+            {/* Muted teal focal ring */}
+            <circle cx="0" cy="0" r="14" stroke="#48A9A6" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.8" />
             {/* Center optical reflex glint */}
             <circle cx="-5" cy="-5" r="4" fill="#ffffff" opacity="0.85" filter="blur(0.5px)" />
-            <circle cx="6" cy="6" r="2" fill="#38bdf8" opacity="0.9" />
+            <circle cx="6" cy="6" r="2" fill="#648DB5" opacity="0.9" />
           </g>
 
           {/* High-Gain Steerable X-band Downlink Parabolic Dish Antenna */}
@@ -183,8 +183,8 @@ export const Sentinel2Model: React.FC<{ isHero?: boolean; isSideView?: boolean }
             <ellipse cx="65" cy="-30" rx="26" ry="14" fill="#e2e8f0" stroke="#64748b" strokeWidth="1.5" transform="rotate(-25 65 -30)" />
             <ellipse cx="63" cy="-31" rx="22" ry="11" fill="#cbd5e1" transform="rotate(-25 65 -30)" />
             {/* Feed horn */}
-            <line x1="65" y1="-30" x2="80" y2="-37" stroke="#38bdf8" strokeWidth="2" />
-            <circle cx="80" cy="-37" r="2.5" fill="#22d3ee" />
+            <line x1="65" y1="-30" x2="80" y2="-37" stroke="#648DB5" strokeWidth="2" />
+            <circle cx="80" cy="-37" r="2.5" fill="#48A9A6" />
           </g>
 
           {/* Cold Gas Hydrazine Micro-Thruster Nozzles */}
@@ -195,7 +195,7 @@ export const Sentinel2Model: React.FC<{ isHero?: boolean; isSideView?: boolean }
               cx="-12"
               cy="0"
               r="2"
-              fill="#38bdf8"
+              fill="#648DB5"
               animate={{ opacity: [0, 0.9, 0], scale: [1, 2.5] }}
               transition={{ duration: 1.8, repeat: Infinity, repeatDelay: 1 }}
             />
@@ -206,7 +206,7 @@ export const Sentinel2Model: React.FC<{ isHero?: boolean; isSideView?: boolean }
 
           {/* S-Band Omni Antenna Rods */}
           <line x1="400" y1="245" x2="390" y2="185" stroke="#e2e8f0" strokeWidth="1.5" />
-          <circle cx="390" cy="185" r="3" fill="#22d3ee" />
+          <circle cx="390" cy="185" r="3" fill="#48A9A6" />
         </g>
       </svg>
     </motion.div>
@@ -400,8 +400,8 @@ export const Landsat9Model: React.FC<{ isHero?: boolean; isSideView?: boolean }>
         <g transform="translate(530, 240)">
           <line x1="0" y1="0" x2="40" y2="-30" stroke="#94a3b8" strokeWidth="3" />
           <ellipse cx="60" cy="-45" rx="28" ry="15" fill="#f8fafc" stroke="#64748b" strokeWidth="1.5" transform="rotate(-30 60 -45)" />
-          <line x1="60" y1="-45" x2="75" y2="-55" stroke="#38bdf8" strokeWidth="2" />
-          <circle cx="75" cy="-55" r="3" fill="#22d3ee" />
+          <line x1="60" y1="-45" x2="75" y2="-55" stroke="#648DB5" strokeWidth="2" />
+          <circle cx="75" cy="-55" r="3" fill="#48A9A6" />
         </g>
       </svg>
     </motion.div>

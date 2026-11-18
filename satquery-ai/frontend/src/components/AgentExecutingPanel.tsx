@@ -22,29 +22,45 @@ export default function AgentExecutingPanel() {
     return () => clearInterval(id);
   }, []);
 
+  const progressPct = Math.round(((active + 1) / STEPS.length) * 100);
+
   return (
-    <div className="panel rounded-xl p-6 relative overflow-hidden mb-5 border border-cyan-500/30 bg-slate-900/80 backdrop-blur-md shadow-[0_0_30px_rgba(34,211,238,0.1)]">
-      {/* sweep bar — glowing cyan */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] overflow-hidden">
-        <div className="w-1/3 h-full sweep-bar bg-cyan-400 shadow-[0_0_10px_#22d3ee]" style={{ opacity: 0.9 }} />
+    <div className="rounded-md p-5 mb-5 border border-[#273543] bg-[#141F2A] relative overflow-hidden">
+      {/* Restrained progress line */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#273543]">
+        <div
+          className="h-full bg-[#48A9A6] transition-all duration-300"
+          style={{ width: `${progressPct}%` }}
+        />
       </div>
-      <div className="flex items-center gap-2.5 mb-4">
-        <Loader2 size={16} className="animate-spin text-cyan-400" />
-        <span className="font-semibold text-[14px] text-white">
-          Satellite Imagery AI Agent is executing…
+
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2.5">
+          <Loader2 size={16} className="animate-spin text-[#48A9A6]" />
+          <span className="font-medium text-[14px] text-[#E5EAF0]">
+            Autonomous Geospatial Agent Executing…
+          </span>
+        </div>
+        <span className="text-[11px] font-mono text-[#718096]">
+          Step {active + 1} of {STEPS.length}
         </span>
       </div>
+
       <div className="space-y-2">
         {STEPS.map((s, i) => (
           <div key={s} className="flex items-center gap-2 text-[13px]">
             {i < active ? (
-              <CheckCircle2 size={15} className="shrink-0 text-emerald-400" />
+              <CheckCircle2 size={15} className="shrink-0 text-[#6BA88B]" />
             ) : i === active ? (
-              <Loader2 size={15} className="animate-spin shrink-0 text-cyan-400" />
+              <Loader2 size={15} className="animate-spin shrink-0 text-[#48A9A6]" />
             ) : (
-              <div className="w-[15px] h-[15px] rounded-full border border-slate-700 shrink-0" />
+              <div className="w-[15px] h-[15px] rounded-full border border-[#273543] shrink-0" />
             )}
-            <span style={{ color: i <= active ? "#f8fafc" : "#64748b" }}>{s}</span>
+            <span
+              className={i <= active ? "text-[#E5EAF0]" : "text-[#718096]"}
+            >
+              {s}
+            </span>
           </div>
         ))}
       </div>

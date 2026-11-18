@@ -36,20 +36,20 @@ export const ImageShowcaseCard: React.FC<ImageShowcaseCardProps> = ({
           src={imageSrc}
           alt={imageAlt}
           loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-102"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-[#030712]/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B1118] via-[#0B1118]/60 to-transparent" />
       </div>
 
       {/* Floating Foreground Content Layer */}
-      <div className={`p-5 absolute bottom-0 inset-x-0 ${styles.layerForeground}`}>
+      <div className={`p-4 absolute bottom-0 inset-x-0 ${styles.layerForeground}`}>
         {badge && (
-          <span className="inline-block text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border bg-cyan-500/15 text-cyan-300 border-cyan-400/30 mb-2">
+          <span className="inline-block text-[10px] font-mono font-medium px-2 py-0.5 rounded border bg-[#192633] text-[#48A9A6] border-[#273543] mb-1.5">
             {badge}
           </span>
         )}
-        <h4 className="text-[16px] font-bold text-white mb-1">{title}</h4>
-        <p className="text-[12px] text-slate-300 font-mono">{subtitle}</p>
+        <h4 className="text-[14px] font-medium text-[#E5EAF0] mb-0.5">{title}</h4>
+        <p className="text-[11px] text-[#9AA8B7] font-mono">{subtitle}</p>
       </div>
     </Card3D>
   );

@@ -1,11 +1,6 @@
 import { useState, useEffect } from "react";
 import {
-  Layers,
   Sparkles,
-  Info,
-  CheckCircle2,
-  AlertTriangle,
-  Radio,
   SlidersHorizontal,
 } from "lucide-react";
 import {
@@ -66,18 +61,18 @@ export default function AdvancedSpectralBiophysicalAnalysis({
   };
 
   return (
-    <div className="mt-5 pt-5 border-t border-[rgba(56,189,248,0.18)] space-y-4">
+    <div className="mt-5 pt-5 border-t border-[#273543] space-y-4">
       {/* ── Section Header ── */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div>
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-accent-primary animate-pulse" />
-            <h3 className="text-[13px] font-mono font-bold uppercase tracking-wider text-accent-primary">
-              {data.title || "ADVANCED SPECTRAL & BIOPHYSICAL CHANGE ANALYSIS"}
+            <span className="w-1.5 h-1.5 rounded-full bg-[#48A9A6]" />
+            <h3 className="text-[12px] font-mono font-semibold uppercase tracking-wider text-[#48A9A6]">
+              {data.title || "Spectral & Biophysical Multi-Temporal Analysis"}
             </h3>
           </div>
-          <p className="text-[11px] font-mono text-accent-tertiary mt-0.5">
-            {data.subtitle || "Compare spectral, vegetation and radar characteristics between acquisition dates."}
+          <p className="text-[11px] font-mono text-[#718096] mt-0.5">
+            {data.subtitle || "Differential reflectance and radar characteristics across acquisition dates."}
           </p>
         </div>
 
@@ -86,10 +81,10 @@ export default function AdvancedSpectralBiophysicalAnalysis({
           <div className="flex items-center gap-1.5 flex-wrap">
             <button
               onClick={() => handleScopeChange(null)}
-              className={`text-[10px] font-mono px-2.5 py-1 rounded transition-colors ${
+              className={`text-[11px] font-mono px-2.5 py-1 rounded transition-colors ${
                 activeRegion === null
-                  ? "bg-accent-primary text-space-950 font-bold shadow-sm"
-                  : "bg-space-900 border border-[rgba(56,189,248,0.18)] text-accent-secondary hover:border-accent-tertiary"
+                  ? "bg-[#48A9A6] text-[#0B1118] font-medium"
+                  : "bg-[#101923] border border-[#273543] text-[#9AA8B7] hover:border-[#36485C]"
               }`}
             >
               Scene Aggregate
@@ -98,10 +93,10 @@ export default function AdvancedSpectralBiophysicalAnalysis({
               <button
                 key={reg.region_index}
                 onClick={() => handleScopeChange(reg.region_index)}
-                className={`text-[10px] font-mono px-2.5 py-1 rounded transition-colors ${
+                className={`text-[11px] font-mono px-2.5 py-1 rounded transition-colors ${
                   activeRegion === reg.region_index
-                    ? "bg-accent-primary text-space-950 font-bold shadow-sm"
-                    : "bg-space-900 border border-[rgba(56,189,248,0.18)] text-accent-secondary hover:border-accent-tertiary"
+                    ? "bg-[#48A9A6] text-[#0B1118] font-medium"
+                    : "bg-[#101923] border border-[#273543] text-[#9AA8B7] hover:border-[#36485C]"
                 }`}
                 title={`Inspect ${reg.region_id} (${reg.area_pct.toFixed(1)}% of scene)`}
               >
@@ -114,16 +109,15 @@ export default function AdvancedSpectralBiophysicalAnalysis({
 
       {/* ── Active Scope Indicator Banner ── */}
       {currentRegionData && (
-        <div className="flex items-center justify-between text-[11px] font-mono text-accent-primary bg-[#060f24] border border-accent-tertiary/40 rounded px-3 py-1.5">
-          <span className="flex items-center gap-1.5">
-            <SlidersHorizontal size={13} className="text-accent-primary" />
-            Displaying localized metrics for{" "}
-            <strong>{currentRegionData.region_id}</strong> (covers{" "}
+        <div className="flex items-center justify-between text-[11px] font-mono text-[#E5EAF0] bg-[#101923] border border-[#273543] rounded px-3 py-1.5">
+          <span className="flex items-center gap-2">
+            <SlidersHorizontal size={13} className="text-[#48A9A6]" />
+            Displaying localized metrics for <strong>{currentRegionData.region_id}</strong> (covers{" "}
             {currentRegionData.area_pct.toFixed(1)}% of scene)
           </span>
           <button
             onClick={() => handleScopeChange(null)}
-            className="text-[10px] text-accent-tertiary hover:text-accent-primary underline ml-2"
+            className="text-[11px] text-[#48A9A6] hover:underline ml-2"
           >
             Reset to Scene
           </button>
@@ -133,24 +127,24 @@ export default function AdvancedSpectralBiophysicalAnalysis({
       {/* ── Top Metric Cards (Row of 4) ── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
         {/* Card 1: Built-up Expansion */}
-        <div className="p-3 rounded-[4px] bg-[#030712] border border-[rgba(56,189,248,0.18)] flex flex-col justify-between hover:border-[#172b52] transition-colors">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[#64748b]">
+        <div className="p-3 rounded bg-[#101923] border border-[#273543] flex flex-col justify-between hover:border-[#36485C] transition-colors">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-[#718096]">
             {cards.built_up?.title || "BUILT-UP EXPANSION"}
           </span>
-          <div className="my-1">
+          <div className="my-1.5">
             <span
-              className="text-[20px] font-black font-mono leading-none"
-              style={{ color: cards.built_up?.color || "#22d3ee" }}
+              className="text-[20px] font-mono font-semibold tabular-nums leading-none"
+              style={{ color: cards.built_up?.color || "#48A9A6" }}
             >
               {cards.built_up?.value || "+0.0%"}
             </span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-[9px] font-mono text-[#64748b]">
+            <span className="text-[10px] font-mono text-[#718096]">
               {cards.built_up?.label || "Surface Shift"}
             </span>
             {cards.built_up?.t1_val && cards.built_up?.t2_val && (
-              <span className="text-[9px] font-mono text-accent-secondary/60">
+              <span className="text-[10px] font-mono text-[#9AA8B7]">
                 {cards.built_up.t1_val} → {cards.built_up.t2_val}
               </span>
             )}
@@ -158,34 +152,34 @@ export default function AdvancedSpectralBiophysicalAnalysis({
         </div>
 
         {/* Card 2: Vegetation Change */}
-        <div className="p-3 rounded-[4px] bg-[#030712] border border-[rgba(56,189,248,0.18)] flex flex-col justify-between hover:border-[#172b52] transition-colors">
+        <div className="p-3 rounded bg-[#101923] border border-[#273543] flex flex-col justify-between hover:border-[#36485C] transition-colors">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#64748b]">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#718096]">
               {cards.vegetation?.title || "VEGETATION CHANGE"}
             </span>
             {cards.vegetation?.ndvi_available === false && (
               <span
-                className="text-[8px] font-mono px-1 py-0.5 rounded bg-accent-negative/10 text-accent-negative border border-accent-negative/30"
+                className="text-[9px] font-mono px-1 py-0.5 rounded bg-[#141F2A] text-[#CF7777] border border-[#273543]"
                 title="Input is standard RGB without dedicated NIR channel"
               >
                 No NIR
               </span>
             )}
           </div>
-          <div className="my-1">
+          <div className="my-1.5">
             <span
-              className="text-[20px] font-black font-mono leading-none"
-              style={{ color: cards.vegetation?.color || "#C47A6A" }}
+              className="text-[20px] font-mono font-semibold tabular-nums leading-none"
+              style={{ color: cards.vegetation?.color || "#6BA88B" }}
             >
               {cards.vegetation?.value || "0.0%"}
             </span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-[9px] font-mono text-[#64748b]">
+            <span className="text-[10px] font-mono text-[#718096]">
               {cards.vegetation?.label || "Vegetation Delta"}
             </span>
             {cards.vegetation?.t1_val && cards.vegetation?.t2_val && (
-              <span className="text-[9px] font-mono text-accent-secondary/60">
+              <span className="text-[10px] font-mono text-[#9AA8B7]">
                 {cards.vegetation.t1_val} → {cards.vegetation.t2_val}
               </span>
             )}
@@ -193,49 +187,48 @@ export default function AdvancedSpectralBiophysicalAnalysis({
         </div>
 
         {/* Card 3: SAR Backscatter */}
-        <div className="p-3 rounded-[4px] bg-[#030712] border border-[rgba(56,189,248,0.18)] flex flex-col justify-between hover:border-[#172b52] transition-colors">
+        <div className="p-3 rounded bg-[#101923] border border-[#273543] flex flex-col justify-between hover:border-[#36485C] transition-colors">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#64748b]">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#718096]">
               {cards.sar?.title || "SAR BACKSCATTER"}
             </span>
             {cards.sar?.available ? (
-              <span className="text-[8px] font-mono px-1 py-0.5 rounded bg-accent-positive/10 text-accent-positive border border-accent-positive/30">
+              <span className="text-[9px] font-mono px-1 py-0.5 rounded bg-[#141F2A] text-[#6BA88B] border border-[#273543]">
                 Radar
               </span>
             ) : (
-              <span className="text-[8px] font-mono px-1 py-0.5 rounded bg-space-800 text-[#64748b] border border-[rgba(56,189,248,0.18)]">
+              <span className="text-[9px] font-mono px-1 py-0.5 rounded bg-[#141F2A] text-[#718096] border border-[#273543]">
                 N/A
               </span>
             )}
           </div>
-          <div className="my-1">
+          <div className="my-1.5">
             <span
-              className="text-[20px] font-black font-mono leading-none"
-              style={{ color: cards.sar?.color || "#8FAF8A" }}
+              className="text-[20px] font-mono font-semibold tabular-nums leading-none"
+              style={{ color: cards.sar?.color || "#648DB5" }}
             >
               {cards.sar?.value || "N/A"}
             </span>
           </div>
-          <span className="text-[9px] font-mono text-[#64748b]">
+          <span className="text-[10px] font-mono text-[#718096]">
             {cards.sar?.label || (cards.sar?.available ? "VV / VH Dual-Pol" : "SAR input required")}
           </span>
         </div>
 
         {/* Card 4: Spectral Distance */}
-        <div className="p-3 rounded-[4px] bg-[#030712] border border-[rgba(56,189,248,0.18)] flex flex-col justify-between hover:border-[#172b52] transition-colors">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[#64748b]">
+        <div className="p-3 rounded bg-[#101923] border border-[#273543] flex flex-col justify-between hover:border-[#36485C] transition-colors">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-[#718096]">
             {cards.spectral_distance?.title || "SPECTRAL DISTANCE"}
           </span>
-          <div className="my-1">
+          <div className="my-1.5">
             <span
-              className="text-[20px] font-black font-mono leading-none"
-              style={{ color: cards.spectral_distance?.color || "#cbd5e1" }}
+              className="text-[20px] font-mono font-semibold tabular-nums leading-none text-[#E5EAF0]"
             >
               {cards.spectral_distance?.value || `${spectralDistance.toFixed(2)} RMS`}
             </span>
           </div>
-          <span className="text-[9px] font-mono text-[#64748b]">
-            {cards.spectral_distance?.label || "T1 vs T2 Spectral Difference"}
+          <span className="text-[10px] font-mono text-[#718096]">
+            {cards.spectral_distance?.label || "T1 vs T2 Divergence"}
           </span>
         </div>
       </div>
@@ -243,12 +236,12 @@ export default function AdvancedSpectralBiophysicalAnalysis({
       {/* ── Charts Grid (Left: Spectral Shift Bar, Right: Biophysical Radar) ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
         {/* Left Chart: Spectral Reflectance Shift */}
-        <div className="p-3.5 rounded-md bg-[#030712] border border-[rgba(56,189,248,0.18)]">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#22d3ee] flex items-center gap-1.5">
-              <span>📊</span> SPECTRAL REFLECTANCE SHIFT (T1 VS T2)
+        <div className="p-4 rounded-md bg-[#101923] border border-[#273543]">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-[#48A9A6]">
+              Spectral Reflectance Shift (T1 vs T2)
             </span>
-            <span className="text-[10px] font-mono text-[#64748b]">Top of Atmosphere (DN)</span>
+            <span className="text-[10px] font-mono text-[#718096]">DN Scale</span>
           </div>
           <div className="h-48 w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -258,52 +251,52 @@ export default function AdvancedSpectralBiophysicalAnalysis({
               >
                 <XAxis
                   dataKey="band"
-                  tick={{ fill: "#64748b", fontSize: 9, fontFamily: "IBM Plex Mono, monospace" }}
-                  axisLine={{ stroke: "rgba(56,189,248,0.18)" }}
-                  tickLine={{ stroke: "rgba(56,189,248,0.18)" }}
+                  tick={{ fill: "#718096", fontSize: 10, fontFamily: "IBM Plex Mono, monospace" }}
+                  axisLine={{ stroke: "#273543" }}
+                  tickLine={{ stroke: "#273543" }}
                 />
                 <YAxis
-                  tick={{ fill: "#64748b", fontSize: 9, fontFamily: "IBM Plex Mono, monospace" }}
-                  axisLine={{ stroke: "rgba(56,189,248,0.18)" }}
-                  tickLine={{ stroke: "rgba(56,189,248,0.18)" }}
+                  tick={{ fill: "#718096", fontSize: 10, fontFamily: "IBM Plex Mono, monospace" }}
+                  axisLine={{ stroke: "#273543" }}
+                  tickLine={{ stroke: "#273543" }}
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#08142c",
-                    borderColor: "rgba(255, 219, 187, 0.25)",
+                    backgroundColor: "#141F2A",
+                    borderColor: "#273543",
                     borderRadius: 4,
                     fontSize: 11,
                     fontFamily: "IBM Plex Mono, monospace",
-                    color: "#22d3ee",
+                    color: "#E5EAF0",
                   }}
-                  itemStyle={{ color: "#cbd5e1" }}
-                  labelStyle={{ color: "#22d3ee", fontWeight: "bold" }}
-                  formatter={(value: any, name: any, item: any) => [
+                  itemStyle={{ color: "#E5EAF0" }}
+                  labelStyle={{ color: "#48A9A6", fontWeight: 600 }}
+                  formatter={(value: any, name: any) => [
                     `${value} DN`,
-                    name === "T1_Before" ? "Before (T1)" : "After (T2)",
+                    name === "T1_Before" ? "Baseline (T1)" : "Current (T2)",
                   ]}
                 />
                 <Legend
                   wrapperStyle={{
-                    fontSize: 10,
+                    fontSize: 11,
                     fontFamily: "IBM Plex Mono, monospace",
-                    color: "#cbd5e1",
-                    paddingTop: 4,
+                    color: "#9AA8B7",
+                    paddingTop: 6,
                   }}
                 />
                 <Bar
                   dataKey="T1_Before"
-                  name="Before (T1)"
-                  fill="#64748b"
+                  name="Baseline (T1)"
+                  fill="#648DB5"
                   radius={[2, 2, 0, 0]}
-                  maxBarSize={28}
+                  maxBarSize={24}
                 />
                 <Bar
                   dataKey="T2_After"
-                  name="After (T2)"
-                  fill="#22d3ee"
+                  name="Current (T2)"
+                  fill="#48A9A6"
                   radius={[2, 2, 0, 0]}
-                  maxBarSize={28}
+                  maxBarSize={24}
                 />
               </BarChart>
             </ResponsiveContainer>
@@ -311,12 +304,12 @@ export default function AdvancedSpectralBiophysicalAnalysis({
         </div>
 
         {/* Right Chart: Biophysical Indices / Radar */}
-        <div className="p-3.5 rounded-md bg-[#030712] border border-[rgba(56,189,248,0.18)]">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#22d3ee] flex items-center gap-1.5">
-              <span>🎯</span> BIOPHYSICAL INDICES RADAR
+        <div className="p-4 rounded-md bg-[#101923] border border-[#273543]">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-[#48A9A6]">
+              Biophysical Indices Radar
             </span>
-            <span className="text-[10px] font-mono text-[#64748b]">Normalized Scale (0–100)</span>
+            <span className="text-[10px] font-mono text-[#718096]">Normalized (0–100)</span>
           </div>
           <div className="h-48 w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -324,47 +317,47 @@ export default function AdvancedSpectralBiophysicalAnalysis({
                 data={radarData}
                 margin={{ top: 8, right: 20, left: 20, bottom: 8 }}
               >
-                <PolarGrid stroke="rgba(56,189,248,0.18)" />
+                <PolarGrid stroke="#273543" />
                 <PolarAngleAxis
                   dataKey="metric"
-                  tick={{ fill: "#cbd5e1", fontSize: 9, fontFamily: "IBM Plex Mono, monospace" }}
+                  tick={{ fill: "#9AA8B7", fontSize: 10, fontFamily: "IBM Plex Mono, monospace" }}
                 />
                 <PolarRadiusAxis
-                  stroke="rgba(56,189,248,0.18)"
-                  tick={{ fill: "#64748b", fontSize: 8, fontFamily: "IBM Plex Mono, monospace" }}
+                  stroke="#273543"
+                  tick={{ fill: "#718096", fontSize: 9, fontFamily: "IBM Plex Mono, monospace" }}
                   domain={[0, 100]}
                 />
                 <Radar
-                  name="Before (T1)"
+                  name="Baseline (T1)"
                   dataKey="Before"
-                  stroke="#64748b"
-                  fill="#64748b"
-                  fillOpacity={0.35}
+                  stroke="#648DB5"
+                  fill="#648DB5"
+                  fillOpacity={0.25}
                 />
                 <Radar
-                  name="After (T2)"
+                  name="Current (T2)"
                   dataKey="After"
-                  stroke="#22d3ee"
-                  fill="#22d3ee"
-                  fillOpacity={0.45}
+                  stroke="#48A9A6"
+                  fill="#48A9A6"
+                  fillOpacity={0.35}
                 />
                 <Legend
                   wrapperStyle={{
-                    fontSize: 10,
+                    fontSize: 11,
                     fontFamily: "IBM Plex Mono, monospace",
-                    color: "#cbd5e1",
-                    paddingTop: 4,
+                    color: "#9AA8B7",
+                    paddingTop: 6,
                   }}
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#08142c",
-                    borderColor: "rgba(255, 219, 187, 0.25)",
+                    backgroundColor: "#141F2A",
+                    borderColor: "#273543",
                     borderRadius: 4,
                     fontSize: 11,
                     fontFamily: "IBM Plex Mono, monospace",
                   }}
-                  itemStyle={{ color: "#cbd5e1" }}
+                  itemStyle={{ color: "#E5EAF0" }}
                   formatter={(value: any, name: any) => [
                     `${value} / 100`,
                     name,
@@ -377,41 +370,41 @@ export default function AdvancedSpectralBiophysicalAnalysis({
       </div>
 
       {/* ── AI-Generated Interpretation & Sensor Status ── */}
-      <div className="p-3.5 rounded-md bg-[#030712] border border-[rgba(56,189,248,0.18)] space-y-2.5">
+      <div className="p-4 rounded-md bg-[#101923] border border-[#273543] space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Sparkles size={14} className="text-accent-primary" />
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-accent-primary">
-              AI Spectral & Biophysical Interpretation
+            <Sparkles size={14} className="text-[#48A9A6]" />
+            <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-[#48A9A6]">
+              Evidence-Grounded Biophysical Synthesis
             </span>
           </div>
-          <span className="text-[9px] font-mono text-[#64748b]">
-            Evidence-Grounded Synthesis
+          <span className="text-[10px] font-mono text-[#718096]">
+            Automated Synthesis
           </span>
         </div>
 
-        <p className="text-[12px] font-mono text-accent-secondary leading-relaxed bg-[#060f24] p-2.5 rounded border border-[rgba(56,189,248,0.18)]">
+        <p className="text-[12px] font-mono text-[#E5EAF0] leading-relaxed bg-[#141F2A] p-3 rounded border border-[#273543]">
           "{aiInterpretation}"
         </p>
 
         {/* Modality Status Badges */}
         {data.sensor_status && (
-          <div className="flex items-center gap-2 flex-wrap pt-1 text-[10px] font-mono">
-            <span className="text-[#64748b]">Sensor Telemetry:</span>
+          <div className="flex items-center gap-2 flex-wrap pt-1 text-[11px] font-mono">
+            <span className="text-[#718096]">Sensor Telemetry:</span>
             {Object.entries(data.sensor_status).map(([sensor, status]) => {
               const active = status.toLowerCase().includes("active");
               return (
                 <span
                   key={sensor}
-                  className={`px-2 py-0.5 rounded border flex items-center gap-1 ${
+                  className={`px-2 py-0.5 rounded border flex items-center gap-1.5 ${
                     active
-                      ? "bg-accent-positive/10 border-accent-positive/30 text-accent-positive"
-                      : "bg-[#060f24] border-[rgba(56,189,248,0.18)] text-[#64748b]"
+                      ? "bg-[#141F2A] border-[#273543] text-[#6BA88B]"
+                      : "bg-[#101923] border-[#273543] text-[#718096]"
                   }`}
                 >
                   <span
                     className={`w-1.5 h-1.5 rounded-full ${
-                      active ? "bg-accent-positive" : "bg-[#64748b]"
+                      active ? "bg-[#6BA88B]" : "bg-[#718096]"
                     }`}
                   />
                   <strong className="capitalize">{sensor.replace("_", " ")}:</strong>{" "}

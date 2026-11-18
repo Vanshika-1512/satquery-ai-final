@@ -3,39 +3,18 @@ import { useSearchParams } from "react-router-dom";
 import {
   Sparkles,
   Mic,
-  Image as ImageIcon,
-  GitCompareArrows,
-  Radar as RadarIcon,
   RotateCcw,
-  ChevronRight,
-  Satellite,
-  Layers,
-  Activity,
   CheckCircle2,
 } from "lucide-react";
 import type { AnalysisMode, ImageMetadata, AnalyzeResponse } from "../types";
 import UploadZone from "../components/UploadZone";
-import { PrimaryButton, SecondaryButton, Card3D } from "../components/ui/primitives";
+import { PrimaryButton, SecondaryButton, Card } from "../components/ui/primitives";
 import AgentExecutingPanel from "../components/AgentExecutingPanel";
 import ResultsPanel from "../components/ResultsPanel";
 import ClarificationCard from "../components/ClarificationCard";
 import { api } from "../services/api";
 import { getSessionId, resetSessionId } from "../utils/session";
 import { RealisticSatellite } from "../components/space/RealisticSatellites";
-
-/* ── Deep Space Theme Palette ────────────────────────────── */
-const C = {
-  bg:      "#030712",
-  panel:   "#08142c",
-  border:  "rgba(56, 189, 248, 0.18)",
-  hover:   "#172b52",
-  primary: "#22d3ee",
-  second:  "#cbd5e1",
-  third:   "#64748b",
-  text:    "#f8fafc",
-  pos:     "#34d399",
-  neg:     "#f87171",
-};
 
 const MODES: {
   key: AnalysisMode;
@@ -93,7 +72,7 @@ const CHIPS_BY_MODE: Record<AnalysisMode, string[]> = {
   ],
 };
 
-/* ── Telemetry strip ────────────────────────────────────── */
+/* ── Telemetry Strip ────────────────────────────────────── */
 function TelemetryBar({ mode }: { mode: AnalysisMode }) {
   const items =
     mode === "optical_sar"
@@ -117,18 +96,18 @@ function TelemetryBar({ mode }: { mode: AnalysisMode }) {
           { k: "COORDINATE CRS",      v: "EPSG:4326 WGS84 Co-Registered" },
         ];
   return (
-    <div className="flex flex-wrap gap-px rounded-xl overflow-hidden border border-cyan-500/20 shadow-[0_0_15px_rgba(34,211,238,0.06)]">
+    <div className="flex flex-wrap gap-px rounded border border-[#273543] overflow-hidden bg-[#273543]">
       {items.map(({ k, v }) => (
-        <div key={k} className="flex items-center gap-2 px-3.5 py-2 bg-[#040a1c] flex-1 min-w-[200px]">
-          <span className="text-[10px] uppercase tracking-wider font-mono text-cyan-400 font-bold">{k}</span>
-          <span className="text-[11px] font-mono text-slate-300 font-medium">{v}</span>
+        <div key={k} className="flex items-center gap-2 px-3 py-1.5 bg-[#101923] flex-1 min-w-[200px]">
+          <span className="text-[10px] uppercase tracking-wider font-mono text-[#718096] font-medium">{k}</span>
+          <span className="data text-[11px] text-[#E5EAF0]">{v}</span>
         </div>
       ))}
     </div>
   );
 }
 
-/* ── Page ───────────────────────────────────────────────── */
+/* ── Page Component ─────────────────────────────────────── */
 export default function AnalyzePage({ presetMode }: { presetMode?: AnalysisMode }) {
   const [searchParams] = useSearchParams();
   const urlParamQuery = searchParams.get("q") || "";
@@ -179,19 +158,16 @@ export default function AnalyzePage({ presetMode }: { presetMode?: AnalysisMode 
     "Earth-Observation Imagery Analysis";
 
   return (
-    <div className="px-6 py-8 max-w-[1340px] mx-auto space-y-6">
+    <div className="px-6 py-6 max-w-[1340px] mx-auto space-y-6 bg-[#0B1118]">
 
       {/* ── Page Header ───────────────────────────────────── */}
       <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
         <div>
-          <h1
-            className="text-3xl sm:text-4xl font-normal text-white"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
+          <h1 className="text-2xl sm:text-3xl font-semibold text-[#E5EAF0] tracking-tight">
             {pageTitle}
           </h1>
-          <p className="text-[13px] text-slate-400 font-light mt-1">
-            Upload your satellite imagery, formulate a query in plain English, and inspect verified spectral evidence.
+          <p className="text-[13px] text-[#9AA8B7] mt-1">
+            Upload satellite imagery, formulate a query in plain English, and inspect verified spectral evidence.
           </p>
         </div>
 
@@ -205,7 +181,7 @@ export default function AnalyzePage({ presetMode }: { presetMode?: AnalysisMode 
         </div>
       </div>
 
-      {/* ── Mode Selector Cards (3 Interactive Modes with Realistic Satellite Emblems) ── */}
+      {/* ── Mode Selector Cards ── */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {MODES.filter(m => m.key === mode).map((m) => {
           const isSelected = mode === m.key;
@@ -213,50 +189,50 @@ export default function AnalyzePage({ presetMode }: { presetMode?: AnalysisMode 
             <div
               key={m.key}
               onClick={() => handleModeChange(m.key)}
-              className={`p-4 rounded-2xl border transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between ${
+              className={`p-4 rounded border transition-colors cursor-pointer relative overflow-hidden flex flex-col justify-between ${
                 isSelected
-                  ? "border-cyan-400 bg-cyan-950/25 shadow-[0_0_25px_rgba(34,211,238,0.2)]"
-                  : "border-slate-800/80 bg-slate-900/40 hover:border-slate-700 hover:bg-slate-900/60"
+                  ? "border-[#48A9A6] bg-[#192633]"
+                  : "border-[#273543] bg-[#141F2A] hover:border-[#36485C] hover:bg-[#192633]"
               }`}
             >
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-400/30">
+                  <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-[#101923] text-[#48A9A6] border border-[#273543]">
                     {m.badge}
                   </span>
                   {isSelected && (
-                    <span className="flex items-center gap-1 text-[10px] font-mono text-emerald-400 font-bold">
+                    <span className="flex items-center gap-1 text-[11px] font-mono text-[#6BA88B]">
                       <CheckCircle2 size={12} /> ACTIVE
                     </span>
                   )}
                 </div>
 
-                <div className="text-[16px] font-bold text-white mb-1">
+                <div className="text-[15px] font-medium text-[#E5EAF0] mb-1">
                   {m.label}
                 </div>
-                <div className="text-[12px] text-cyan-400 font-mono mb-2">
+                <div className="text-[12px] text-[#9AA8B7] font-mono mb-2">
                   {m.constellation}
                 </div>
-                <p className="text-[12px] text-slate-400 leading-relaxed font-light">
+                <p className="text-[12px] text-[#718096] leading-relaxed">
                   {m.desc}
                 </p>
               </div>
 
               {/* Miniature Satellite Graphic */}
-              <div className="h-16 w-full relative flex items-center justify-end mt-2 opacity-80">
-                <RealisticSatellite type={m.satellite} size="90px" />
+              <div className="h-14 w-full relative flex items-center justify-end mt-2 opacity-80">
+                <RealisticSatellite type={m.satellite} size="80px" />
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* ── Upload Zone ─────────────────────────────────────── */}
-      <Card3D className="!p-6 border border-cyan-500/20 bg-slate-900/60 backdrop-blur-xl">
+      {/* ── Upload Zone Container ───────────────────────────── */}
+      <Card className="!p-5">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-cyan-400" />
-            <div className="text-[13px] font-mono uppercase tracking-wider font-bold text-white">
+            <span className="w-2 h-2 rounded-full bg-[#48A9A6]" />
+            <div className="text-[12px] font-mono uppercase tracking-wider font-medium text-[#E5EAF0]">
               {mode === "before_after"
                 ? "Bi-Temporal Frame Pair Upload (T1 Before + T2 After)"
                 : mode === "optical_sar"
@@ -264,68 +240,65 @@ export default function AnalyzePage({ presetMode }: { presetMode?: AnalysisMode 
                 : "Primary Satellite Imagery Ingest"}
             </div>
           </div>
-          <span className="text-[11px] font-mono text-cyan-400 font-medium">MAX 250MB // COG Cloud-Optimized</span>
+          <span className="text-[11px] font-mono text-[#718096]">MAX 250MB · GeoTIFF / PNG / JPEG</span>
         </div>
 
-        <div className={`grid gap-5 ${requiredCount === 2 ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"}`}>
+        <div className={`grid gap-4 ${requiredCount === 2 ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"}`}>
           {mode === "before_after" ? (
             <>
-              <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/60">
-                <div className="text-[12px] font-mono uppercase mb-2 flex items-center justify-between text-cyan-300 font-bold">
+              <div className="p-3.5 rounded border border-[#273543] bg-[#101923]">
+                <div className="text-[11px] font-mono uppercase mb-2 flex items-center justify-between text-[#9AA8B7] font-medium">
                   <span>Before (T1 Prior State)</span>
-                  <span className="text-[10px] text-slate-400 font-normal">HISTORICAL BASELINE</span>
+                  <span className="text-[10px] text-[#718096]">HISTORICAL BASELINE</span>
                 </div>
                 <UploadZone label="Before (T1)" current={images[0]} onUploaded={(m) => setImages(([, b]) => [m, b])} />
               </div>
-              <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/60">
-                <div className="text-[12px] font-mono uppercase mb-2 flex items-center justify-between text-emerald-300 font-bold">
+              <div className="p-3.5 rounded border border-[#273543] bg-[#101923]">
+                <div className="text-[11px] font-mono uppercase mb-2 flex items-center justify-between text-[#6BA88B] font-medium">
                   <span>After (T2 Current State)</span>
-                  <span className="text-[10px] text-slate-400 font-normal">RECENT OBSERVATION</span>
+                  <span className="text-[10px] text-[#718096]">RECENT OBSERVATION</span>
                 </div>
                 <UploadZone label="After (T2)" current={images[1]} onUploaded={(m) => setImages(([a]) => [a, m])} />
               </div>
             </>
           ) : mode === "optical_sar" ? (
             <>
-              <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/60">
-                <div className="text-[12px] font-mono uppercase mb-2 font-bold text-cyan-300">
+              <div className="p-3.5 rounded border border-[#273543] bg-[#101923]">
+                <div className="text-[11px] font-mono uppercase mb-2 font-medium text-[#9AA8B7]">
                   Optical Multispectral Sensor (MSI)
                 </div>
                 <UploadZone label="Optical Image" current={images[0]} onUploaded={(m) => setImages(([, b]) => [m, b])} />
               </div>
-              <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/60">
-                <div className="text-[12px] font-mono uppercase mb-2 font-bold text-cyan-300">
+              <div className="p-3.5 rounded border border-[#273543] bg-[#101923]">
+                <div className="text-[11px] font-mono uppercase mb-2 font-medium text-[#9AA8B7]">
                   SAR Radar (C-Band Backscatter)
                 </div>
                 <UploadZone label="SAR Image" current={images[1]} onUploaded={(m) => setImages(([a]) => [a, m])} />
               </div>
             </>
           ) : (
-            <div className="p-4 rounded-xl border border-slate-800 bg-slate-950/60">
+            <div className="p-3.5 rounded border border-[#273543] bg-[#101923]">
               <UploadZone label="Satellite Imagery Scene" current={images[0]} onUploaded={(m) => setImages(([, b]) => [m, b])} />
             </div>
           )}
         </div>
-      </Card3D>
+      </Card>
 
       {/* ── Natural Language Query Input Box ─────────────────── */}
-      <Card3D
-        config={{ maxTilt: 2, scale: 1.002, parallax: false }}
-        className="!p-6 border border-cyan-500/30 bg-slate-950/80 backdrop-blur-2xl shadow-[0_0_40px_rgba(14,165,233,0.12)]"
-      >
-        <div className="flex items-center justify-between mb-3 text-xs font-mono text-cyan-400">
-          <span className="flex items-center gap-2">
-            <Sparkles size={14} />
-            <span className="font-bold">
+      <Card className="!p-5">
+        <div className="flex items-center justify-between mb-2.5 text-xs font-mono text-[#48A9A6]">
+          <span className="flex items-center gap-1.5">
+            <Sparkles size={13} />
+            <span className="font-medium">
               {turnCount > 0 ? `Follow-up Inquiry (Session Turn ${turnCount + 1})` : "Query — Natural-Language Remote-Sensing Reasoning"}
             </span>
           </span>
-          <span className="text-slate-400">
+          <span className="text-[#718096]">
             {turnCount > 0 ? "Session maintains multi-turn conversation memory" : "SatQuery Dispatch Agent v2.4"}
           </span>
         </div>
 
-        <div className="relative mb-4">
+        <div className="relative mb-3">
           <textarea
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -337,49 +310,49 @@ export default function AnalyzePage({ presetMode }: { presetMode?: AnalysisMode 
             }}
             placeholder="Ask SatQuery anything about your satellite scene… e.g. 'Segment newly constructed roads and estimate vegetation loss'"
             rows={2}
-            className="w-full rounded-xl px-4 py-3.5 pr-12 text-[15px] bg-[#030712] text-white border border-slate-700/80 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 outline-none resize-none transition-all placeholder:text-slate-500"
+            className="w-full rounded px-3.5 py-3 pr-10 text-[14px] bg-[#101923] text-[#E5EAF0] border border-[#273543] focus:border-[#48A9A6] outline-none resize-none transition-colors placeholder:text-[#718096]"
           />
-          <Mic size={18} className="absolute right-4 top-4 text-slate-500 hover:text-cyan-400 cursor-pointer transition-colors" />
+          <Mic size={16} className="absolute right-3.5 top-3.5 text-[#718096] hover:text-[#48A9A6] cursor-pointer transition-colors" />
         </div>
 
         {/* Suggested Task Prompt Chips */}
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div className="flex flex-wrap gap-1.5 mb-3.5">
           {CHIPS_BY_MODE[mode].map((c) => (
             <button
               key={c}
               onClick={() => setQuery(c)}
-              className="text-[12px] px-3.5 py-1.5 rounded-full border border-slate-700/80 bg-slate-900/60 text-slate-300 hover:text-cyan-300 hover:border-cyan-400/60 hover:bg-cyan-950/30 transition-all font-medium text-left"
+              className="text-[12px] px-2.5 py-1 rounded border border-[#273543] bg-[#192633] text-[#9AA8B7] hover:text-[#E5EAF0] hover:border-[#48A9A6] transition-colors font-normal text-left"
             >
               {c}
             </button>
           ))}
         </div>
 
-        <div className="flex items-center justify-between pt-3 border-t border-slate-800">
-          <div className="text-[12px] font-mono text-slate-400">
-            ⊞ Supports zero-shot masking, biophysical index calculation &amp; area estimation
+        <div className="flex items-center justify-between pt-3 border-t border-[#273543]">
+          <div className="text-[11px] font-mono text-[#718096]">
+            Supports zero-shot masking, biophysical index calculation &amp; area estimation
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             {query && (
               <button
                 onClick={() => setQuery("")}
-                className="text-xs font-mono text-slate-400 hover:text-white px-3 py-1.5 rounded-lg border border-slate-800 transition-colors"
+                className="text-xs font-mono text-[#718096] hover:text-[#E5EAF0] px-2.5 py-1 rounded border border-[#273543] transition-colors"
               >
                 Clear
               </button>
             )}
             <PrimaryButton onClick={() => runQuery(query)} disabled={!canRun}>
-              <Sparkles size={14} />
+              <Sparkles size={13} />
               <span>
                 {mode === "before_after" ? "Execute Change Detection" : mode === "optical_sar" ? "Execute Sensor Fusion" : "Run Analysis"}
               </span>
             </PrimaryButton>
           </div>
         </div>
-        {error && <div className="text-[12px] font-mono text-rose-400 mt-3">{error}</div>}
-      </Card3D>
+        {error && <div className="text-[12px] font-mono text-[#CF7777] mt-3">{error}</div>}
+      </Card>
 
-      {/* ── Monospace Telemetry Strip ───────────────────────── */}
+      {/* ── Telemetry Strip ─────────────────────────────────── */}
       <TelemetryBar mode={mode} />
 
       {/* ── Active Execution & Results ──────────────────────── */}
@@ -400,7 +373,7 @@ export default function AnalyzePage({ presetMode }: { presetMode?: AnalysisMode 
 
       {/* Optical + SAR Information Cards */}
       {mode === "optical_sar" && !loading && !result && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
           {[
             {
               title: "C-Band SAR Infiltration",
@@ -421,18 +394,18 @@ export default function AnalyzePage({ presetMode }: { presetMode?: AnalysisMode 
               satellite: "sentinel-2" as const,
             },
           ].map(({ title, sub, desc, satellite }) => (
-            <Card3D key={title} className="!p-5 border border-cyan-500/20 bg-slate-900/60 flex flex-col justify-between">
+            <div key={title} className="p-4 rounded border border-[#273543] bg-[#141F2A] flex flex-col justify-between">
               <div>
-                <div className="text-[10px] font-mono font-bold text-cyan-400 uppercase tracking-widest mb-1">
+                <div className="text-[10px] font-mono font-medium text-[#48A9A6] uppercase tracking-wider mb-1">
                   {sub}
                 </div>
-                <div className="text-[16px] font-bold text-white mb-2">{title}</div>
-                <div className="text-[13px] text-slate-300 leading-relaxed font-light">{desc}</div>
+                <div className="text-[15px] font-medium text-[#E5EAF0] mb-2">{title}</div>
+                <div className="text-[13px] text-[#9AA8B7] leading-relaxed">{desc}</div>
               </div>
-              <div className="h-16 w-full flex items-center justify-end opacity-70 mt-3">
-                <RealisticSatellite type={satellite} size="80px" />
+              <div className="h-14 w-full flex items-center justify-end opacity-70 mt-3">
+                <RealisticSatellite type={satellite} size="70px" />
               </div>
-            </Card3D>
+            </div>
           ))}
         </div>
       )}
